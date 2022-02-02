@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philomath</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/home.css">
+
+    <style>
+        header{
+            border: 1px solid red;
+            background-color: rgb(255, 211, 211);
+            color: red;
+        }
+        .userAnnouncement{
+            border: 1px solid blue;
+            background-color: #a0f9ff;
+            color: blue;
+            margin-bottom: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('templates/homeNav') %> 
+
+
+    <div class="pad-sides pad-top-60">
+        <% if(currentUser) { %>
+            <div class="userAnnouncement rounded-20 basic-padding">Currently Logged in as <%= currentUser.username %> </div>    
+        <% } %> 
+        <header class="rounded-20 basic-padding">
+            <h3>You are currently using alpha-version.</h3>
+            <p class="pad-top-5">This application is currently in alpha phase. Thus, it is advised that users only from development team access this applicaion.<br />
+                Many elements of website might work perfectly. You may also encounter some bugs while exploring. Please inform the bugs to the
+                developer as soon as you catch them.    
+            </p>
+        </header>
+    </div>
+    
+</body>
+</html>

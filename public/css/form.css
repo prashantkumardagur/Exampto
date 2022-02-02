@@ -1,0 +1,12 @@
+form{
+    max-width: 500px;
+    margin: 60px auto;
+    background-color: #bee7ff;
+}
+label{
+    padding-top: 20px;
+}
+input{
+    padding: 5px;
+    width: 100%;
+}

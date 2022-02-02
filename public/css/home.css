@@ -1,0 +1,16 @@
+nav{
+    background-color: #111;
+    color: white;
+    padding: 10px 5vw;
+    align-items: center;
+}
+.nav-links{
+    right: 5vw;
+    list-style: none;
+}
+.nav-links li{
+    margin-left: 20px;
+}
+.nav-links li:hover{
+    text-decoration: underline;
+}

@@ -1,0 +1,58 @@
+*{padding: 0; margin: 0; box-sizing: border-box;}
+
+
+/* ----- CSS variable declarations ----------------------------------------------- */
+:root{
+    --accent : #0059ff;
+}
+
+
+
+/* ----- Basic element styling --------------------------------------------------- */
+html{scroll-behavior: smooth;}
+body{font-family: roboto, sans-serif; cursor: default;}
+
+a{color: inherit; text-decoration: none;}
+
+label, input{display: block;}
+
+
+
+/* ----- Utility classes --------------------------------------------------------- */
+.relative{position: relative;}
+.absolute{position: absolute;}
+
+.flex{display: flex;}
+.grid{display: grid;}
+.block{display: block;}
+.inline{display: inline;}
+
+
+
+/* ----- Basic elements ---------------------------------------------------------- */
+.pad-sides{padding: 0 5vw;}
+.pad-top-60{padding-top: 60px;}
+.pad-top-40{padding-top: 40px;}
+.pad-top-20{padding-top: 20px;}
+.pad-top-10{padding-top: 10px;}
+.pad-top-5{padding-top: 5px;}
+.basic-padding{padding: 20px 30px;}
+
+.mar-top-5{margin-top: 5px;}
+.mar-top-10{margin-top: 10px;}
+.mar-top-20{margin-top: 20px;}
+.mar-top-40{margin-top: 40px;}
+
+.rounded-20{border-radius: 20px;}
+.rounded-10{border-radius: 10px;}
+.rounded-5{border-radius: 5px;}
+
+
+
+/* Basic component styling */
+.btn-sm, .btn-md, .btn-lg{ background-color: transparent; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;}
+.btn-lg.block, .btn-md.block, .btn-sm.block{ width: 100%;}
+.btn-sm{ padding: 5px 10px;}
+.btn-md{ padding: 8px 15px; font-size: 17px;}
+.btn-lg{ padding: 10px 20px; font-size: 20px;}
+.btn-sm.primary, .btn-md.primary, .btn-lg.primary{ background-color: var(--accent); color: #fff;}
