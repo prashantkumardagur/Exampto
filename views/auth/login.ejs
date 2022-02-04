@@ -12,11 +12,11 @@
 
     <link rel="stylesheet" href="/css/basic.css">
     <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
 
-    <%- include('../templates/homeNav') %> 
+    <%- include('../homeNav') %> 
 
     <form action="/auth/login" method="POST" class="basic-padding rounded-20">
         <h1>Login to dashboard</h1>
@@ -28,7 +28,7 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password" required>
         </section>
-        <button class="mar-top-20 btn-md primary block">Submit</button>
+        <button class="mar-top-20 btn medium primary block">Submit</button>
     </form>
     
 </body>

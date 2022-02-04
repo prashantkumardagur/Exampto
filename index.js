@@ -81,6 +81,7 @@ app.use(session(sessionConfig));
 
 /* ----- Setting up Passport for authentication ----------------------------------------------------------------------- */
 
+// User passport configuration
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -88,23 +89,29 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {res.locals.currentUser = req.user; next();});
+
+// Adding authenticated users to locals variable
+app.use((req, res, next) => {
+    res.locals.USER = req.user;
+    res.locals.USER_TYPE = req.session.authType;
+    next();
+});
 
 
 
 /*----- ROUTES ---------------------------------------------------------------------------------------------------------*/
 
-const dashboardRoutes = require('./routes/dashboard');
-const testRoutes = require('./routes/test');
-const authRoutes = require('./routes/auth');
-const devRoutes = require('./routes/dev');
+const userRoutes = require('./routes/userRoute');
+const coordinatorRoutes = require('./routes/coordinatorRoute')
+const authRoutes = require('./routes/authRoute');
+const devRoutes = require('./routes/devRoute');
 
 
-// Dashboard routes
-app.use('/dashboard', dashboardRoutes);
+// User routes
+app.use('/user', userRoutes);
 
-// Test routes
-app.use('/test', testRoutes);
+// Coordinator routes
+app.use('/coordinator', coordinatorRoutes);
 
 // Auth routes
 app.use('/auth', authRoutes);
@@ -128,8 +135,9 @@ app.all('*', (req, res) => {
 
 // Error Logger
 app.use((err, req, res, next) => {
-    let { code = 500, msg = 'Something went wrong', message} = err;
-    res.status(code).send({msg , message});
+    let { status = 500, msg = 'Something went wrong', message} = err;
+    res.status(status).send({msg , message});
+    next();
 })
 
 // Listening port declaration

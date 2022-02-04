@@ -29,12 +29,12 @@
 </head>
 <body>
 
-    <%- include('templates/homeNav') %> 
+    <%- include('./homeNav') %> 
 
 
     <div class="pad-sides pad-top-60">
-        <% if(currentUser) { %>
-            <div class="userAnnouncement rounded-20 basic-padding">Currently Logged in as <%= currentUser.username %> </div>    
+        <% if(USER) { %>
+            <div class="userAnnouncement rounded-20 basic-padding">Currently Logged in as <%= USER.name %> ( <%= USER_TYPE %>  ) </div>    
         <% } %> 
         <header class="rounded-20 basic-padding">
             <h3>You are currently using alpha-version.</h3>

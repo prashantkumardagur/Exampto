@@ -12,21 +12,21 @@
 
     <link rel="stylesheet" href="/css/basic.css">
     <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/auth.css">
 </head>
 <body>
 
-    <%- include('../templates/homeNav') %> 
+    <%- include('../homeNav') %> 
 
     <form action="/auth/register" method="POST" class="basic-padding rounded-20">
         <h1>New user registration</h1>
-        <!-- <section>
+        <section>
             <label for="name">Your Name</label>
             <input type="text" name="name" id="name" required autofocus>
-        </section> -->
+        </section>
         <section>
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" required autofocus>
+            <input type="email" name="email" id="email" required>
         </section>
         <section>
             <label for="username">Username</label>
@@ -36,7 +36,7 @@
             <label for="password">Password</label>
             <input type="password" name="password" id="password" required>
         </section>
-        <button class="mar-top-20 btn-md primary block">Register</button>
+        <button class="mar-top-20 btn medium primary block">Register</button>
     </form>
     
 </body>

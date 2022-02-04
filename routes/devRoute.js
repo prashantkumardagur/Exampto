@@ -14,7 +14,7 @@ const isLoggedIn = (req, res, next) => {
 /* ----- /dev/ routes ------------------------------------------ */
 
 router.get('/' , isLoggedIn, (req, res) => {
-    res.send('Welcome to dev center');
+    res.render('dev/devhome');
 })
 
 module.exports = router;

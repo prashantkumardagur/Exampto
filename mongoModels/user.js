@@ -1,13 +1,32 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
-const userSchema = new mongoose.Schema({
-    name : String,
-    email : String,
+const userSchema = new Schema({
+    name : {
+        type : String,
+        required : true,
+        minLength : 3,
+        maxLength : 32
+    },
+    email : {
+        type : String,
+        required : true,
+        minLength : 3,
+        maxLength : 64
+    },
+    utype : {
+        type : String,
+        enum : ['user', 'coordinator'],
+        default : 'user'
+    },
     phone : String,
     dob : Date,
     gender : String,
-    program : { enum: ['JEE', 'NEET', 'SSC']},
+    program : { 
+        type: String,
+        enum: ['JEE', 'NEET', 'SSC']
+    },
     nationality : String,
     institution : {
         name : String,
@@ -15,27 +34,54 @@ const userSchema = new mongoose.Schema({
         country : String
     },
     wallet : {
-        coins : Number,
-        transactions : String,
+        coins : {
+            type : Number,
+            min : 0,
+            default : 0
+        },
+        transactions : {
+            type : Schema.Types.ObjectId,
+            ref : 'Transaction'
+        },
         withdrawDetails : {
             method : String,
             id : String
         }
     },
-    examsEnrolled : {
-        id : String
-    },
-    results : {
-        id : String
-    },
+    examsEnrolled : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Exam'
+    }],
+    results : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Result'
+    }],
     meta : {
-        createdOn : Date,
-        lastUpdated : Date,
-        registrationCompleted : Boolean,
-        isDisabled : Boolean,
-        isBanned : Boolean,
+        createdOn : {
+            type : Date,
+            default : Date.now
+        },
+        lastUpdated : {
+            type : Date,
+            default : Date.now
+        },
+        registrationCompleted : {
+            type : Boolean,
+            default : false
+        },
+        isDisabled : {
+            type : Boolean,
+            default : false
+        },
+        isBanned : {
+            type : Boolean,
+            default : false
+        },
         lastLogin : {
-            time : Date,
+            time : {
+                type : Date,
+                default : Date.now
+            },
             ip : String
         }
     }

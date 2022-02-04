@@ -4,13 +4,17 @@
 /* ----- CSS variable declarations ----------------------------------------------- */
 :root{
     --accent : #0059ff;
+    --accent2 : #d1eaff;
+    --bg : #f6f6f6;
+    --shadow : #ddd;
+    --greyText : #555;
 }
 
 
 
 /* ----- Basic element styling --------------------------------------------------- */
 html{scroll-behavior: smooth;}
-body{font-family: roboto, sans-serif; cursor: default;}
+body{font-family: roboto, sans-serif; cursor: default; background-color: var(--bg);}
 
 a{color: inherit; text-decoration: none;}
 
@@ -21,27 +25,34 @@ label, input{display: block;}
 /* ----- Utility classes --------------------------------------------------------- */
 .relative{position: relative;}
 .absolute{position: absolute;}
+.fixed{position: fixed}
 
 .flex{display: flex;}
 .grid{display: grid;}
 .block{display: block;}
 .inline{display: inline;}
+.in-block{display: inline-block;}
+
+.pos-center{place-items: center;}
+.text-center{text-align: center;}
 
 
 
 /* ----- Basic elements ---------------------------------------------------------- */
 .pad-sides{padding: 0 5vw;}
+.basic-padding{padding: 20px 30px;}
 .pad-top-60{padding-top: 60px;}
 .pad-top-40{padding-top: 40px;}
 .pad-top-20{padding-top: 20px;}
 .pad-top-10{padding-top: 10px;}
 .pad-top-5{padding-top: 5px;}
-.basic-padding{padding: 20px 30px;}
 
 .mar-top-5{margin-top: 5px;}
 .mar-top-10{margin-top: 10px;}
 .mar-top-20{margin-top: 20px;}
 .mar-top-40{margin-top: 40px;}
+.mar-right{margin-right: 5px;}
+.mar-left{margin-left: 5px;}
 
 .rounded-20{border-radius: 20px;}
 .rounded-10{border-radius: 10px;}
@@ -49,10 +60,100 @@ label, input{display: block;}
 
 
 
-/* Basic component styling */
-.btn-sm, .btn-md, .btn-lg{ background-color: transparent; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;}
-.btn-lg.block, .btn-md.block, .btn-sm.block{ width: 100%;}
-.btn-sm{ padding: 5px 10px;}
-.btn-md{ padding: 8px 15px; font-size: 17px;}
-.btn-lg{ padding: 10px 20px; font-size: 20px;}
-.btn-sm.primary, .btn-md.primary, .btn-lg.primary{ background-color: var(--accent); color: #fff;}
+
+/* ----- Font Stylings ------------------------------------------------------- */
+.w400{font-weight: 400;}
+.w500{font-weight: 500;}
+.w700{font-weight: 700;}
+.w900{font-weight: 900;}
+
+.h1{font-size: 50px;}
+.ch{font-size: 20px; text-transform: uppercase; letter-spacing: 1px; color: var(--greyText); word-spacing: 2px; margin-bottom: 20px;}
+
+.red{color: red;}
+.accent{color: var(--accent);}
+.grey{color: var(--greyText);}
+
+.accent-bg{background-color: var(--accent);}
+.accent2-bg{background-color: var(--accent2);}
+.white-bg{background-color: #fff;}
+
+
+/* ----- Basic component styling ------------------------------------------------------------------- */
+
+/* Custom Buttons */
+.btn{ background-color: transparent; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;}
+.btn i{margin-right: 5px;}
+.btn.block{ width: 100%;}
+.btn.primary{ background-color: var(--accent); color: #fff;}
+.btn.small{ padding: 5px 10px;}
+.btn.medium{ padding: 8px 15px; font-size: 17px;}
+.btn.large{ padding: 10px 20px; font-size: 20px;}
+
+.btn-link{color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 1px;}
+.btn-link i{margin-left: 5px; transition: 0.2s;}
+.btn-link:hover i{margin-left: 15px;}
+
+
+/* Boxed Component Styling */
+.boxed{ font-weight: 500; box-shadow: 0 0 10px var(--shadow); background-color: #fff; max-width: max-content;}
+.boxed i{margin-right: 10px;}
+.boxed.large{ border-radius: 10px; font-size: 20px; padding: 10px 20px;}
+.boxed-blue{background-color: var(--accent2); box-shadow: none;}
+
+/* -data-box highlights */
+.data-box{ background-color: var(--accent2); border-radius: 10px; padding: 15px 20px;}
+.data-box h5{text-transform: uppercase; color: var(--greyText); font-size: 15px; font-weight: 900; letter-spacing: 1px;}
+.data-box p{font-size: 40px; font-weight: 700;}
+
+
+/* Content Cards and loaders */
+.contentCard{border-radius: 10px; box-shadow: 0 5px 20px var(--shadow); padding: 10px 10px 15px; margin-top: 50px; background-color: #fff;}
+.loading{ width: 100%; border-radius: 10px; background-color: var(--shadow); padding: 40px 20px; text-align: center;}
+
+
+
+/* Mobile style rules */
+.lg-only{visibility: hidden;}
+
+
+/* ----- For devices with screen width > 500px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 500px) {
+    .contentCard{padding: 15px 25px 20px;}
+}
+
+
+
+/* ----- For devices with screen width > 750px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 800px) {
+    .mob-only{visibility: hidden;}
+    .lg-only{visibility: visible;}
+
+    .contentCard{padding: 20px 40px 30px; border-radius: 20px; }
+}
+
+
+
+/* ----- For devices with screen width > 1000px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 1000px) {
+    
+}
+
+
+
+/* ----- For devices with screen width > 1400px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 1400px) {
+    
+}
+
+
+
+/* ----- For devices with screen width > 1900px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 1900px) {
+    
+}

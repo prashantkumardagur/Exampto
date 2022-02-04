@@ -139,14 +139,8 @@ coordinator = {
     name : 'Prajjawal Pandit',
     email : 'panditprajjawal@gmail.com',
     phone : '9876543210',
-    dob : '16 April 2001',
     gender : 'male',
     nationality : 'India',
-    institution : {
-        name : 'Lovely Professional University',
-        place : 'Phagwara, Punjab',
-        country : 'India'
-    },
     examsCreated : {
         type : ObjectId,
         ref : 'exams'
