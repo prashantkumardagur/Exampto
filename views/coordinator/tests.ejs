@@ -1,0 +1,29 @@
+<% layout('layouts/coordinatorDashboard') %> 
+
+<header class="relative">
+    <h1 class="h1" data-nav="1">Tests</h1>
+    <aside class="lg-only absolute">
+        <div class="searchBox rounded-10 flex pos-center">
+            <i class="fas fa-search mar-right"></i>
+            <input type="text" placeholder="Search for tests">
+        </div>
+        <a href="/coordinator/createtest" class="btn primary large"><i class="fas fa-plus"></i> New Test</a>
+    </aside>
+</header>
+
+<main class="pad-top-20">
+    <div class="contentCard">
+        <h2 class="ch">Exams under creation</h2>
+        <div class="examList loading" id="notPublished"></div>
+    </div>
+    <div class="contentCard">
+        <h2 class="ch">Exams Published</h2>
+        <div class="examList loading" id="published"></div>
+    </div>
+    <div class="contentCard">
+        <h2 class="ch">Exams completed</h2>
+        <div class="examList loading" id="completed"></div>
+    </div>
+</main>
+
+<script src="/js/coordinator/loadMyTests.js"></script>

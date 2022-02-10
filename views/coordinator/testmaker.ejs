@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Maker - Exampto</title>
+
+    <!-- Google Fonts - Roboto (400,500,700,900) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 5.15.4 - For icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
+    integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- App stylesheets -->
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/component.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/testmaker.css">
+</head>
+<body>
+    <%- include('../coordinator/partials/nav') %>
+
+    <div class="container pad-top-20">
+
+        <header class="relative">
+            <h1 class="h1" id="h1" data-id="<%= testId %>">Test Maker</h1>
+            <aside class="lg-only absolute">
+                <div id="dateHolder" class="boxed large grey">DATE</div>
+                <div id="timeHolder" class="boxed large grey">TIME</div>
+            </aside>
+        </header>
+        
+        <main>
+            <div class="contentCard">
+                <h2 class="ch">Test Details</h2>
+                <div class="loading" id="myTestDiv">Loading your test...</div>
+            </div>
+
+            <div class="contentCard">
+                <h2 class="ch">Test Content</h2>
+                <div class="boxed boxed-blue small in-block mar-right">Total questions : <span id="totalQuestions"></span></div>
+                <div class="boxed boxed-blue small in-block">Maximum marking : <span id="maxMarking"></span></div>
+                <div id="testContentsDiv" class="mar-top-40"></div>
+
+                <form autocomplete="off" id="newContent" class="newContent">
+                    <h6>Add new question</h6>
+                    <section>
+                        <label for="newQuestion">Question</label>
+                        <input type="text" name="newQuestion" id="newQuestion" required>
+                    </section>
+                    <section>
+                        <label for="options">Options</label>
+                        <input type="text" name="option1" id="option1" placeholder="Option 1" required>
+                        <input type="text" name="option2" id="option2" placeholder="Option 2" required>
+                        <input type="text" name="option3" id="option3" placeholder="Option 3" required>
+                        <input type="text" name="option4" id="option4" placeholder="Option 4" required>
+                    </section>
+                    <section>
+                        <label for="correntOption">Correct Option</label>
+                        <input type="number" name="correctOption" id="correctOption" value="1" min="1" max="4" required >
+                    </section>
+                    <button class="primary btn medium">Add Question</button>
+                </form>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/coordinator/testmaker.js"></script> 
+</body>
+</html>
+
+

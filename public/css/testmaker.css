@@ -1,0 +1,23 @@
+label, input, select {display: block; width: 100%;}
+input, select {background-color: var(--shadow); border: none; border-radius: 5px; padding: 5px 8px; font-size: 16px;}
+label{ color: var(--greyText); font-weight: 700; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; }
+
+.quesDiv{ padding: 10px 15px; border: 2px solid var(--shadow); border-radius: 5px; margin-bottom: 30px; }
+.quesDiv h6{font-size: 16px; color: var(--greyText);}
+.question {padding: 10px 0 15px; font-weight: 500;}
+.quesDiv ul{list-style: none;}
+.option{ background-color: var(--accent2); margin-bottom: 10px; padding: 5px 10px; border-radius: 5px;}
+.option.correct{ background-color: var(--green);}
+
+.newContent{ padding: 10px 15px; border: 2px solid var(--accent); border-radius: 5px; }
+.newContent h6{font-size: 18px; color: var(--accent); margin-bottom: 10px;}
+.newContent input{margin-bottom: 10px;}
+
+
+@media screen and (max-width: 600px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }    
+}

@@ -1,29 +1,53 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const resultSchema = Schema({
     user : {
         type : Schema.Types.ObjectId,
-        ref : 'User'
+        ref : 'User',
+        required : true
     },
     exam : {
         type : Schema.Types.ObjectId,
-        ref : 'Exam'
+        ref : 'Exam',
+        required : true
     },
-    marksAllocated : Number,
-    percentile : Number,
-    rank : Number,
+    marksAllocated : {
+        type : Number,
+        default : 0
+    },
+    percentile : {
+        type : Number,
+        default : 0
+    },
+    rank : {
+        type : Number,
+        default : 0
+    },
     responses : [Number],
     meta : {
-        startedOn : Date,
+        ended : {
+            type : Boolean,
+            default : false
+        },
+        startedOn : {
+            type : Date,
+            default : Date.now
+        },
         endedOn : Date,
         deviceDetails : {
             browser : String,
             os : String,
             ip : String,
         },
-        disconnections : Number,
-        isValid : Boolean
+        disconnections : {
+            type : Number,
+            default : 0
+        },
+        isValid : { 
+            type : Boolean,
+            default : true
+        }
     }
 });
 

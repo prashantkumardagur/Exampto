@@ -1,4 +1,4 @@
-<% layout('layouts/dashboard') -%>
+<% layout('layouts/userDashboard') -%>
 
 <header class="relative">
     <h1 class="h1" data-nav="2">Explore</h1>
@@ -11,6 +11,13 @@
 <main class="pad-top-20">
     <div class="contentCard">
         <h2 class="ch">Find exams and practice tests</h2>
-        <div class="loading">Loading content please wait...</div>
+        <div class="loading" id="exploreDiv">Loading content please wait...</div>
+    </div>
+
+    <div class="contentCard">
+        <h2 class="ch">Explore practice tests</h2>
+        <div class="loading" id="practiceDiv">Loading content please wait...</div>
     </div>
 </main>
+
+<script src="/js/user/explore.js"></script>

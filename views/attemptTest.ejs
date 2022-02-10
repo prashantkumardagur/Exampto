@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attempt Test - Exampto</title>
+
+    <!-- Google Fonts - Roboto (400,500,700,900) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="/css/basic.css">
+    <link rel="stylesheet" href="/css/attemptTest.css">
+</head>
+<body>
+
+    <div class="container grid">
+        <nav class="relative white-bg grid">
+            <div>
+                <h1 id="h1" data-id="<%= testId %>" data-rid="<%= resultId %>">LIVE MOCK TEST</h1>
+                <h2 class="w400">Mock Test Name</h2>
+                <h3 class="mar-top-40">QUESTION PALLETE</h3>
+            </div>
+            <div class="grid" id="questionPallete"></div>
+            <a href="/attempttest/<%= resultId %>/endtest" id="endBtn" class="btn text-center">End test</a>
+        </nav>
+        <main class="relative">
+            <div id="timer" class="w500 grey rounded-5 white-bg">Time Remaining - 25 : 26</div>
+            <h5 class="grey">QUESTION <span id="Qnum">1</span> / 20</h5>
+            <p id="quesDiv" class="w500 mar-top-40"></p>
+            <ul id="options" class="mar-top-20"></ul>
+            <button class="btn mar-top-20" id="unselectBtn">Remove Selection</button>
+            <div class="btnArea absolute">
+                <button class="btn" id="backBtn">Previous</button>
+                <button class="btn" id="flagBtn">Flag</button>
+                <button class="btn" id="nextBtn">Next</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/attemptTest.js"></script>
+    
+</body>
+</html>

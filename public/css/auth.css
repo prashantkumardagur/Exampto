@@ -6,7 +6,7 @@ form{
 label{
     padding-top: 20px;
 }
-input{
+input, select{
     padding: 5px;
     width: 100%;
 }

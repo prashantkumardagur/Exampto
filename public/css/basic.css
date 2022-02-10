@@ -1,13 +1,16 @@
-*{padding: 0; margin: 0; box-sizing: border-box;}
+*{padding: 0; margin: 0; box-sizing: border-box; z-index: 0;}
 
 
 /* ----- CSS variable declarations ----------------------------------------------- */
 :root{
     --accent : #0059ff;
+    --accent-dark: #0026ff;
     --accent2 : #d1eaff;
     --bg : #f6f6f6;
-    --shadow : #ddd;
+    --shadow : #eee;
     --greyText : #555;
+    --green : #8cff8c;
+    --red : #ff4141;
 }
 
 
@@ -18,7 +21,11 @@ body{font-family: roboto, sans-serif; cursor: default; background-color: var(--b
 
 a{color: inherit; text-decoration: none;}
 
-label, input{display: block;}
+label, input, select{display: block;}
+
+.container{
+    padding-bottom: 100px;
+}
 
 
 
@@ -54,11 +61,6 @@ label, input{display: block;}
 .mar-right{margin-right: 5px;}
 .mar-left{margin-left: 5px;}
 
-.rounded-20{border-radius: 20px;}
-.rounded-10{border-radius: 10px;}
-.rounded-5{border-radius: 5px;}
-
-
 
 
 /* ----- Font Stylings ------------------------------------------------------- */
@@ -67,60 +69,40 @@ label, input{display: block;}
 .w700{font-weight: 700;}
 .w900{font-weight: 900;}
 
-.h1{font-size: 50px;}
-.ch{font-size: 20px; text-transform: uppercase; letter-spacing: 1px; color: var(--greyText); word-spacing: 2px; margin-bottom: 20px;}
+.rounded-20{border-radius: 20px;}
+.rounded-10{border-radius: 10px;}
+.rounded-5{border-radius: 5px;}
 
-.red{color: red;}
+.h1{font-size: 50px;}
+
+.red{color: var(--red);}
 .accent{color: var(--accent);}
 .grey{color: var(--greyText);}
 
 .accent-bg{background-color: var(--accent);}
 .accent2-bg{background-color: var(--accent2);}
 .white-bg{background-color: #fff;}
+.red-bg{background-color: var(--red) !important;}
 
 
 /* ----- Basic component styling ------------------------------------------------------------------- */
 
-/* Custom Buttons */
-.btn{ background-color: transparent; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;}
-.btn i{margin-right: 5px;}
-.btn.block{ width: 100%;}
-.btn.primary{ background-color: var(--accent); color: #fff;}
-.btn.small{ padding: 5px 10px;}
-.btn.medium{ padding: 8px 15px; font-size: 17px;}
-.btn.large{ padding: 10px 20px; font-size: 20px;}
-
-.btn-link{color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 1px;}
-.btn-link i{margin-left: 5px; transition: 0.2s;}
-.btn-link:hover i{margin-left: 15px;}
-
-
-/* Boxed Component Styling */
-.boxed{ font-weight: 500; box-shadow: 0 0 10px var(--shadow); background-color: #fff; max-width: max-content;}
-.boxed i{margin-right: 10px;}
-.boxed.large{ border-radius: 10px; font-size: 20px; padding: 10px 20px;}
-.boxed-blue{background-color: var(--accent2); box-shadow: none;}
-
-/* -data-box highlights */
-.data-box{ background-color: var(--accent2); border-radius: 10px; padding: 15px 20px;}
-.data-box h5{text-transform: uppercase; color: var(--greyText); font-size: 15px; font-weight: 900; letter-spacing: 1px;}
-.data-box p{font-size: 40px; font-weight: 700;}
-
-
-/* Content Cards and loaders */
-.contentCard{border-radius: 10px; box-shadow: 0 5px 20px var(--shadow); padding: 10px 10px 15px; margin-top: 50px; background-color: #fff;}
-.loading{ width: 100%; border-radius: 10px; background-color: var(--shadow); padding: 40px 20px; text-align: center;}
-
+/* Alert box present on top of main for notifications */
+#alertBox{
+    position: fixed;  top: -80px; left: 50vw; z-index: 100; font-weight: 500; color: white;  transition: 0.2s ease-in-out;
+    transform: translateX(-50%); background-color: var(--accent); border-radius: 5px; padding: 10px 20px; font-size: 16px;
+}
+#alertBox i{font-size: inherit; margin-right: 10px;}
 
 
 /* Mobile style rules */
-.lg-only{visibility: hidden;}
+.lg-only{display: none;}
 
 
 /* ----- For devices with screen width > 500px -------------------------------------------------------------------------------  */
 
 @media screen and (min-width: 500px) {
-    .contentCard{padding: 15px 25px 20px;}
+
 }
 
 
@@ -128,10 +110,8 @@ label, input{display: block;}
 /* ----- For devices with screen width > 750px -------------------------------------------------------------------------------  */
 
 @media screen and (min-width: 800px) {
-    .mob-only{visibility: hidden;}
-    .lg-only{visibility: visible;}
-
-    .contentCard{padding: 20px 40px 30px; border-radius: 20px; }
+    .mob-only{ display: none;}
+    .lg-only{ display: block;}
 }
 
 

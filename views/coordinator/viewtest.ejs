@@ -1,0 +1,20 @@
+<% layout('layouts/coordinatorDashboard') %> 
+
+<header class="relative">
+    <h1 class="h1" id="h1" data-nav="1" data-id="<%= testId %> ">View Test</h1>
+    <aside class="lg-only absolute">
+        <div id="dateHolder" class="boxed large grey">DATE</div>
+        <div id="timeHolder" class="boxed large grey">TIME</div>
+    </aside>
+</header>
+
+<main>
+    <div class="contentCard heroCard" id="heroCard"></div>
+    <div class="contentCard">
+        <h2 class="ch">Analytics</h2>
+        <div class="loading">Your content is loading...</div>
+    </div>
+</main>
+
+
+<script src="/js/coordinator/viewtest.js"></script>

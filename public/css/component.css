@@ -1,0 +1,102 @@
+/* Content Card heading */
+.ch{ font-size: 20px; text-transform: uppercase; letter-spacing: 1px; color: var(--greyText); word-spacing: 2px; margin-bottom: 20px;}
+
+/* Content Cards */
+.contentCard{ border-radius: 10px; padding: 10px 10px 15px; margin-top: 50px; position: relative;
+    background-color: #fff; box-shadow: 0 5px 20px var(--shadow); }
+
+/* Loader class */
+.loading{ width: 100%; border-radius: 10px; background-color: var(--shadow); padding: 40px 20px; text-align: center;}
+
+/* positioning classes */
+.top-right{position: absolute; top: 10px; right: 10px;}
+.bottom-right{position: absolute; bottom: 15px; right: 10px;}
+
+
+/* ----- Button Styling ------------------------------------------------------------------- */
+
+.btn{ background-color: transparent; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;}
+.btn i{margin-right: 5px;}
+.btn.block{ width: 100%;}
+.btn.primary{ background-color: var(--accent); color: #fff;}
+.btn.small{ padding: 5px 10px;}
+.btn.medium{ padding: 8px 15px; font-size: 17px;}
+.btn.large{ padding: 10px 20px; font-size: 20px; border-radius: 10px;}
+
+.btn-link{color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 1px; font-weight: 700;}
+.btn-link i{margin-left: 5px; transition: 0.2s;}
+.btn-link:hover i{margin-left: 15px;}
+
+
+/* ----- Data components ------------------------------------------------------------------- */
+
+/* Boxed Component Styling */
+.boxed{ font-weight: 500; box-shadow: 0 0 10px var(--shadow); background-color: #fff; max-width: max-content;}
+.boxed i{margin-right: 10px;}
+.boxed.small{border-radius: 5px; font-size: 15px; padding: 4px 8px;}
+.boxed.medium{font-size: 17px; padding: 7px 12px; border-radius: 5px;}
+.boxed.large{ border-radius: 10px; font-size: 20px; padding: 10px 20px;}
+.boxed-blue{background-color: var(--accent2); box-shadow: none;}
+
+/* data-box highlights */
+.data-box{ background-color: var(--accent2); border-radius: 10px; padding: 15px 20px;}
+.data-box h5{text-transform: uppercase; color: var(--greyText); font-size: 15px; font-weight: 900; letter-spacing: 1px;}
+.data-box p{font-size: 40px; font-weight: 700;}
+
+/* Search Box Styling */
+.searchBox{position: relative; width: 300px; background-color: #fff; box-shadow: 0 5px 20px var(--shadow); padding: 0 15px; }
+.searchBox input{border: none; font-size: 16px; width: 100%; padding: 5px 0; outline: none; color: var(--greyText);}
+
+
+/* ----- Exam Cards ------------------------------------------------------------------- */
+
+.examList{display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); grid-gap: 20px; margin-top: 20px;}
+.examCard{border-radius: 10px; padding: 10px 15px 15px; border: 2px solid var(--shadow); max-width: 400px;}
+.examCard .count{top: 15px; right: 15px;}
+.examCard h5{font-size: 20px; font-weight: 700; margin: 4px 0 8px;}
+.examCard p{font-size: 14px; color: var(--greyText);}
+.examCard .btn-link{margin-top: 15px; display: inline-block;}
+
+
+
+/* ----- For devices with screen width > 500px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 500px) {
+    .contentCard{padding: 15px 25px 20px;}
+    .top-right{top: 15px; right: 25px;}
+    .bottom-right{bottom: 20px; right: 25px;}
+}
+
+
+
+/* ----- For devices with screen width > 750px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 800px) {
+    .contentCard{padding: 20px 40px 30px; border-radius: 20px; }
+    .top-right{top: 20px; right: 40px;}
+    .bottom-right{bottom: 30px; right: 40px;}
+}
+
+
+
+/* ----- For devices with screen width > 1000px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 1000px) {
+    
+}
+
+
+
+/* ----- For devices with screen width > 1400px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 1400px) {
+    
+}
+
+
+
+/* ----- For devices with screen width > 1900px -------------------------------------------------------------------------------  */
+
+@media screen and (min-width: 1900px) {
+    
+}

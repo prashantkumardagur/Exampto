@@ -105,7 +105,14 @@ const userRoutes = require('./routes/userRoute');
 const coordinatorRoutes = require('./routes/coordinatorRoute')
 const authRoutes = require('./routes/authRoute');
 const devRoutes = require('./routes/devRoute');
+const apiRoutes = require('./routes/apiRoute');
+const testRoutes = require('./routes/testRoute');
 
+// API routes
+app.use('/api', apiRoutes);
+
+// Test attempt routes
+app.use('/attempttest', testRoutes);
 
 // User routes
 app.use('/user', userRoutes);

@@ -1,30 +1,56 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose.Schema;
+const Schema = mongoose.Schema;
+
+const contentSchema = new Schema({ 
+    question : String,
+    options : [String]
+ }, { _id : false });
 
 const examSchema = Schema({
-    name : String,
+    name : {
+        type : String,
+        required : true,
+        default: 'New Test Name'
+    },
     category : { 
         type : String,
-        enum : ['JEE', 'NEET', 'SSC']
+        enum : ['JEE', 'NEET', 'SSC'],
+        required : true
     },
     marking : {
         positive : Number,
         negative : Number,
-        maxMarks : Number,
     },
     duration : Number,
     startTime : Date,
-    endTime : Date,
-    price : Number,
-    contents : [{
-        ques : String,
-        options : [String]
-    }],
+    lastStartTime : Date,
+    price : {
+        type : Number,
+        default : 0
+    },
+    solutions : {
+        type : String,
+        default : ''
+    },
+    contents : [contentSchema],
     answers : [Number],
     meta : {
-        studentsEnrolled : Number,
-        resultDeclared : Boolean,
-        isPrivate : Boolean,
+        isPublished : {
+            type : Boolean,
+            default : false
+        },
+        studentsEnrolled : { 
+            type : Number,
+            default : 0
+        },
+        resultDeclared : {
+            type : Boolean,
+            default : false
+        },
+        isPrivate : {
+            type : Boolean,
+            default : false
+        },
         createdOn : Date,
         resultDeclaredOn : Date,
         creater : {
