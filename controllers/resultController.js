@@ -24,7 +24,7 @@ module.exports.renderTest = async (req, res) => {
         });
         await result.save();
     }
-    res.render('attempttest', {testId : req.params.id , resultId : resultexists ? resultexists._id : result._id});
+    res.render('attemptTest', {testId : req.params.id , resultId : resultexists ? resultexists._id : result._id});
 }
 
 
