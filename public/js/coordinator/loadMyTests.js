@@ -2,22 +2,18 @@ var notPublishedDiv = document.getElementById("notPublished");
 var publishedDiv = document.getElementById("published");
 var completedDiv = document.getElementById("completed");
 
-var monthNames = [ "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPr", "OCT", "NOV", "DEC" ];
-var myTests ={}
-
-const createExamList = ( testType, targetDiv ) => {
-    if(testType.length == 0) {
-        targetDiv.innerHTML = "You have no tests in this category.";
-    } else {
-        targetDiv.classList.remove('loading');
-        testType.forEach(test => targetDiv.appendChild(createExamCard(test, 'coordinator')));
-    }
+window.onload = () => {
+    loadMyTests();
 }
 
-window.onload = async () => {
-    myTests = await fetch("/api/coordinator/mytests").then(res => res.json());
-    if(myTests.status === 'success') {
-        myTests = myTests.data;
+
+// Loads all tests created by the coordinator
+const loadMyTests = async () => {
+    myTestsRequest = await fetch("/api/coordinator/mytests").then(res => res.json());
+    if(myTestsRequest.status !== 'success'){
+        showAlert(myTestsRequest.message, 'error');
+    } else {
+        let myTests = myTestsRequest.data;
 
         let unPublished = myTests.filter( test => !test.meta.isPublished);
         let published = myTests.filter( test => test.meta.isPublished && !test.meta.resultDeclared);
@@ -27,11 +23,16 @@ window.onload = async () => {
         createExamList(published, publishedDiv);
         createExamList(completed, completedDiv);
 
-        document.querySelectorAll('.btn-link').forEach( (btn) =>{
-            btn.innerHTML += ' <i class="fas fa-arrow-right"></i>';
-        })
+        updateBtnLinks();
+    }
+}
 
-    } else {
-        showAlert('Error loading tests', 'error');
+
+// Creates a list of tests for a given category
+const createExamList = ( testType, targetDiv ) => {
+    if(testType.length == 0) targetDiv.innerHTML = "You have no tests in this category.";
+    else {
+        targetDiv.classList.remove('loading');
+        testType.forEach(test => targetDiv.appendChild(createExamCard(test, 'coordinator')));
     }
 }

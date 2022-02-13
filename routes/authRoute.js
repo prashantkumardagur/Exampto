@@ -20,7 +20,6 @@ router.route('/login')
 // Logout route
 router.get('/logout', (req, res) => {
     req.logout();
-    delete req.session.authType;
     res.redirect('/');
 } )
 

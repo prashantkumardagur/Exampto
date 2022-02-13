@@ -22,7 +22,7 @@ const createQuesDiv = (content, index) => {
 }
 
 window.onload = async () => {
-    var myTest = await fetch("/api/coordinator/gettest?id=" + testId).then(res => res.json());
+    var myTest = await fetch(`/api/testmaker/${testId}`).then(res => res.json());
 
     if(myTest.status === 'failure') {
         myTestDiv.innerHTML = `Test not found. Please contact the administrator if something is wrong.`;
@@ -103,7 +103,7 @@ window.onload = async () => {
                 price: detailForm.elements.price.value,
             }
     
-            let updateResponse = await fetch('/api/coordinator/gettest?_method=PATCH', {
+            let updateResponse = await fetch(`/api/testmaker/${testId}?_method=PATCH`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(testDetails)
@@ -113,7 +113,7 @@ window.onload = async () => {
         });
 
         document.getElementById('testDeleteBtn').addEventListener('click', async () => {
-            let deleteResponse = await fetch(`/api/coordinator/gettest?_method=DELETE&id=${testId}`, {method: 'POST'}).then(res => res.json());
+            let deleteResponse = await fetch(`/api/testmaker/${testId}?_method=DELETE`, {method: 'POST'}).then(res => res.json());
             if(deleteResponse.status === 'success') window.location.href = '/coordinator/tests';
             else showAlert(deleteResponse.message);
         });
@@ -139,7 +139,7 @@ window.onload = async () => {
                 answer: parseInt(newContent.elements.correctOption.value)
             }
 
-            let newContentResponse = await fetch(`/api/testmaker/${testId}`, {
+            let newContentResponse = await fetch(`/api/testmaker/${testId}/addquestion`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newContentData)
@@ -148,7 +148,6 @@ window.onload = async () => {
 
             if(newContentResponse.status === 'success') {
                 showAlert('Question added successfully');
-                console.log(newContentResponse);
                 newContent.reset();
 
                 contents.push({

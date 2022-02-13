@@ -9,17 +9,6 @@ const ejsMate = require('ejs-mate');
 const helmet = require('helmet');
 
 
-/*----- Error Handlers -----------------------------------------------------------------------------------------------*/
-
-// Custom error class
-class appError extends Error {
-    constructor(code, msg){
-        super();
-        this.code = code;
-        this.msg = msg;
-    }
-}
-
 
 /*----- Setting up mongoDB database --------------------------------------------------------------------------------- */
 
@@ -31,9 +20,6 @@ const dbUrl = process.env.DB_URL || 'mongodb+srv://prashantkumar:Password024680@
 mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {console.log('MongoDB connected.')})
 .catch(err => {console.log(err)});
-
-// importing database models
-const User = require('./mongoModels/user');
 
 
 
@@ -72,6 +58,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(path.join( __dirname, '/public')));
 
+// Adding other middlewares packages
 app.use(helmet());
 app.use(cookieParser());
 app.use(methodOverride('_method'));
@@ -80,6 +67,9 @@ app.use(session(sessionConfig));
 
 
 /* ----- Setting up Passport for authentication ----------------------------------------------------------------------- */
+
+// importing user model
+const User = require('./models/user');
 
 // User passport configuration
 app.use(passport.initialize());
@@ -91,11 +81,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 // Adding authenticated users to locals variable
-app.use((req, res, next) => {
-    res.locals.USER = req.user;
-    res.locals.USER_TYPE = req.session.authType;
-    next();
-});
+app.use((req, res, next) => { res.locals.USER = req.user; next(); });
 
 
 
@@ -106,13 +92,9 @@ const coordinatorRoutes = require('./routes/coordinatorRoute')
 const authRoutes = require('./routes/authRoute');
 const devRoutes = require('./routes/devRoute');
 const apiRoutes = require('./routes/apiRoute');
-const testRoutes = require('./routes/testRoute');
 
 // API routes
 app.use('/api', apiRoutes);
-
-// Test attempt routes
-app.use('/attempttest', testRoutes);
 
 // User routes
 app.use('/user', userRoutes);
@@ -137,13 +119,13 @@ app.get('/', (req,res) => {
 
 // 404 Error
 app.all('*', (req, res) => {
-    throw new appError(404, 'Page not found');
+    res.status(404).send('404 Not Found');
 })
 
 // Error Logger
 app.use((err, req, res, next) => {
     let { status = 500, msg = 'Something went wrong', message} = err;
-    res.status(status).send({msg , message});
+    res.status(status).send({msg , message, stack: err.stack});
     next();
 })
 

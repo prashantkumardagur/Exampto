@@ -11,7 +11,7 @@ var Qbtns = [];
 var answers = [];
 
 window.onload = async () => {
-    var requestTest = await fetch(`/attempttest/${testId}/requesttest`).then(res => res.json());
+    var requestTest = await fetch(`/api/attempttest/${testId}/requesttest`).then(res => res.json());
     if (requestTest.status !== "success") {
         console.log(requestTest.message);
         showAlert(requestTest.message, "error");
@@ -37,14 +37,14 @@ const createPalleteBtns = async (num) => {
     }
     Qbtns = document.getElementsByClassName("Qbtn");
 
-    let dbAnswers = await fetch(`/attempttest/${resultId}/getanswers`).then(res => res.json());
+    let dbAnswers = await fetch(`/api/attempttest/${resultId}/getanswers`).then(res => res.json());
     answers = dbAnswers.data;
     if(!answers.length) answers = new Array(num).fill(0);
     else { for(let i=0; i<num; ++i) { if(answers[i] !== 0) Qbtns[i].classList.add("marked"); } }
 }
 
 const saveAnswers = async () => {
-    let saveResponse = await fetch(`/attempttest/${resultId}/saveanswers`, {
+    let saveResponse = await fetch(`/api/attempttest/${resultId}/saveanswers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ responses: answers })

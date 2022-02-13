@@ -1,7 +1,91 @@
-const Exam = require('../mongoModels/exam');
+const Exam = require('../models/exam');
+const User = require('../models/user');
 const { respondSuccess , respondFailure } = require('../utils/responders');
 
-// --------------------------------------------------------------------------------------------
+
+// ----- User side exam controller -----------------------------------------------------------------------
+
+// Returns the tests user has enrolled for
+module.exports.getEnrolledTests = async (req, res) => {
+    let enrolledTests = await User.findById(
+        {_id: req.user.id},
+        {examsEnrolled: 1}
+        ).populate('examsEnrolled', {contents: 0, solutions: 0, answers: 0});
+    respondSuccess(res, 'Successfully fetched enrolled tests', enrolledTests);
+}
+
+// Returns the available upcoming tests for the user
+module.exports.exploreTests = async (req, res) => {
+    let exams = await Exam.find({"meta.isPublished" : true, "meta.isPrivate" : false, "meta.resultDeclared" : false},
+        {name: 1, category: 1, duration: 1, meta: 1, startTime: 1, answers: 1});
+    let responseData = exams.map(exam => { 
+        let data = exam.toJSON();
+        data.totalQuestions = data.answers.length;
+        data.answers = [];
+        return data;
+    });
+    respondSuccess(res, 'Successfully fetched available tests', responseData);
+}
+
+// Returns the test with the id provided in params
+module.exports.getTestForUser = async (req, res) => {
+    try{
+        let exam = await Exam.findById(req.params.id, {contents: 0, solutions: 0});
+        if(!exam) return respondFailure(res, 'No test found', 404);
+        let responseData = exam.toJSON();
+        responseData.totalQuestions = responseData.answers.length;
+        responseData.answers = [];
+        responseData.enrolled = req.user.examsEnrolled.includes(exam._id);;
+        respondSuccess(res, 'Successfully fetched test', responseData);
+    } catch(err) {
+        respondFailure(res, 'Invalid test id', 400);
+    }
+}
+
+// Enrolls the user for the test with the given id
+module.exports.enrollTest = async (req, res) => {
+    try{
+        let examId = req.params.id;
+        if(req.user.examsEnrolled.includes(examId)) return respondSuccess(res, 'Already enrolled for this test');
+        let exam = await Exam.findById(examId);
+        if(!exam) return respondFailure(res, 'No test found', 404);
+        if(!exam.meta.isPublished && exam.meta.resultDeclared) return respondFailure(res, 'Bad request', 400);
+        await User.findByIdAndUpdate(req.user.id, {$push: {examsEnrolled: examId}});
+        exam.meta.studentsEnrolled++;
+        await exam.save();
+        respondSuccess(res, 'Successfully enrolled for test');
+    } catch(err) {
+        respondFailure(res, 'Error enrolling for test');
+    }
+}
+
+
+
+// ----- Coordinator side exam controller -------------------------------------------------------------------
+
+// gets all the tests created by the logged in coordinator
+module.exports.getMyTests = async (req, res) => {
+    let myExams = await Exam.find({"meta.creater" : req.user.id}, {contents: 0, solutions: 0, answers: 0});
+    respondSuccess(res, 'Successfully fetched tests', myExams);
+}
+
+// gets the test with the given id
+module.exports.getTestForCoordinator = async (req, res) => {
+    try { 
+        let exam = await Exam.findById(req.params.id, {contents: 0, solutions: 0});
+        if(!exam) return respondFailure(res, 'No test found', 404);
+        let responseData = exam.toJSON();
+        responseData.totalQuestions = responseData.answers.length;
+        responseData.answers = [];
+        respondSuccess(res, 'Successfully fetched test', responseData);
+    } catch(err) { 
+        respondFailure(res, 'Invalid test id', 400);
+    }
+}
+
+
+// ----- Test maker controller -------------------------------------------------------
+
 
 // initializes a new test for the logged in coordinator
 module.exports.initilizeTest = (req, res) => {
@@ -32,28 +116,18 @@ module.exports.initilizeTest = (req, res) => {
     res.redirect('/coordinator/testmaker/' + exam._id);
 }
 
-// gets all the tests created by the logged in coordinator
-module.exports.getMyTests = async (req, res) => {
-    let myExams = await Exam.find({"meta.creater" : req.user});
-    if(myExams) respondSuccess(res, 'Successfully fetched tests', myExams);
-    else respondFailure(res, 'No tests found');
-}
-
 // gets the test with the given id
-module.exports.getTestForCoordinator = async (req, res) => {
-    if(!req.query.id) return respondFailure(res, 'No test id found', 400);
+module.exports.getTestForTestMaker = async (req, res) => {
     try { 
-        let exam = await Exam.findById(req.query.id);
+        let exam = await Exam.findById(req.params.id);
         if(exam) respondSuccess(res, 'Successfully fetched test', exam);
-        else respondFailure(res, 'No test found');
+        else respondFailure(res, 'No test found', 404);
     } catch(err) { 
         respondFailure(res, 'Invalid test id', 400);
     }
 }
 
-
-// ----- Test maker controller -------------------------------------------------------
-
+// Updates basic details of the test
 module.exports.updateDetails = async (req, res) => {
     try{
         let exam = await Exam.findById(req.body.id);
@@ -76,6 +150,7 @@ module.exports.updateDetails = async (req, res) => {
     }
 }
 
+// Deletes the test with the given id
 module.exports.deleteTest = async (req, res) => {
     if(!req.query.id) return respondFailure(res, 'No test id found', 400);
     try{
@@ -87,6 +162,7 @@ module.exports.deleteTest = async (req, res) => {
     }
 }
 
+// Adds the questions to the test
 module.exports.addQuestion = async (req, res) => {
     if(!req.body.id) return respondFailure(res, 'No test id found', 400);
     let {question , options , answer} = req.body;
@@ -101,8 +177,11 @@ module.exports.addQuestion = async (req, res) => {
     }
 }
 
+
+
 // ----- Test configuration controller ------------------------------------------------
 
+// Publishes the test with the given id
 module.exports.publishTest = async (req, res) => {
     if(!req.params.id) return respondFailure(res, 'No test id found', 400);
     try{
@@ -119,36 +198,15 @@ module.exports.publishTest = async (req, res) => {
 
 
 
-
-// ----- User side exam controller ---------------------------------------------------
-
-module.exports.exploreTests = async (req, res) => {
-    let exams = await Exam.find({"meta.isPublished" : true, "meta.isPrivate" : false, "meta.resultDeclared" : false});
-    if(exams) respondSuccess(res, 'Successfully fetched tests', exams);
-    else respondFailure(res, 'No tests found', 200);
-}
-
-module.exports.getTestForUser = async (req, res) => {
-    if(!req.params.id) return respondFailure(res, 'No test id found', 400);
-    try{
-        let exam = await Exam.findById(req.params.id);
-        if(exam) respondSuccess(res, 'Successfully fetched test', exam);
-        else respondFailure(res, 'No test found', 400);
-    } catch(err) {
-        respondFailure(res, 'Invalid test id', 400);
-    }
-}
-
-
 // ----- Test Attempt controller ----------------------------------------------------------
 
+// Returns the test with the given id
 module.exports.testRequest = async (req, res) => {
-    if(!req.params.id) return respondFailure(res, 'No test id found', 400);
     try{
-        let exam = await Exam.findById(req.params.id);
+        let exam = await Exam.findById(req.params.id, {answers: 0, solutions: 0});
         if(exam) respondSuccess(res, 'Successfully fetched test', exam);
-        else respondFailure(res, 'No test found', 400);
+        else respondFailure(res, 'No test found', 404);
     } catch(err) {
-        respondFailure(res, 'Error requesting test');
+        respondFailure(res, 'Error requesting test', 400);
     }
 }

@@ -1,13 +1,14 @@
-const User = require('../mongoModels/user');
+const User = require('../models/user');
 
+// Registers a new user
 module.exports.register = async (req, res) => {
     try {
-        const {name, email, username, password, utype} = req.body;
+        const {name, email, username, password, role} = req.body;
         const user = new User({
             name,
             email,
             username,
-            utype,
+            role,
             meta : { lastLogin : { ip : req.ip }}
         });
 
@@ -15,7 +16,6 @@ module.exports.register = async (req, res) => {
 
         req.login(registeredUser, (err) => {
             if(err) return next(err);
-            req.session.authType = registeredUser.utype;
             res.redirect('/');
         });
 
@@ -24,25 +24,9 @@ module.exports.register = async (req, res) => {
     }
 }
 
+// Logs in a user or coordinator
 module.exports.login = (req, res) => {
     let redirectUrl = req.session.redirectUrl || '/';
     delete req.session.redirectUrl;
-    req.session.authType = req.user.utype;
     res.redirect(redirectUrl);
-}
-
-module.exports.isUserLoggedIn = (req, res, next) => {
-    if(req.isAuthenticated() && req.session.authType === 'user') next();
-    else {
-        req.session.redirectUrl = req.originalUrl;
-        return res.redirect('/auth/login');
-    }
-}
-
-module.exports.isCoordinatorLoggedIn = (req, res, next) => {
-    if(req.isAuthenticated() && req.session.authType === 'coordinator') next();
-    else {
-        req.session.redirectUrl = req.originalUrl;
-        return res.redirect('/auth/login');
-    }
 }

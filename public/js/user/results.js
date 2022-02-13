@@ -1,11 +1,18 @@
 var id = document.getElementById("h1").dataset.id;
 var resultsDiv = document.getElementById('results');
 
-window.onload = async () => {
-    let results = await fetch(`/api/user/myresults`).then(res => res.json());
-    if(results.status !== 'success') showAlert(results.message, 'error');
+window.onload = () => {
+    loadResults();
+}
+
+
+// Loads the results of the user
+const loadResults = async () => {
+    let resultsRequest = await fetch(`/api/user/myresults`).then(res => res.json());
+
+    if(resultsRequest.status !== 'success') showAlert(resultsRequest.message, 'error');
     else {
-        results = results.data;
+        let results = resultsRequest.data;
         results.forEach( result => {
             resultsDiv.innerHTML += `
             <div class="resultDiv">

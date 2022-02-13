@@ -15,7 +15,7 @@ const userSchema = new Schema({
         minLength : 3,
         maxLength : 64
     },
-    utype : {
+    role : {
         type : String,
         enum : ['user', 'coordinator'],
         default : 'user'
