@@ -3,8 +3,8 @@
 <header class="relative">
     <h1 class="h1" id="h1" data-nav="2" data-id="<%= testId %>">View test</h1>
     <aside class="lg-only absolute flex">
-        <div class="boxed large grey">29 FEB 2020</div>
-        <div class="boxed large grey">06 : 32 PM</div>
+        <div class="boxed large grey" id="dateHolder">29 FEB 2020</div>
+        <div class="boxed large grey" id="timeHolder">06 : 32 PM</div>
     </aside>
 </header>
 
@@ -13,7 +13,7 @@
         <div id="heroCard" class="heroCard"></div>
     </div>
 
-    <div class="contentCard">
+    <div class="contentCard" id="instructions">
         <h2 class="ch">Examination Instructions</h2>
         <ul class="instructions grey">
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis magni debitis architecto, nesciunt, 
@@ -33,6 +33,48 @@
                 vitae voluptatibus odit unde.</li>
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, sunt.</li>
         </ul>
+    </div>
+
+    <div class="contentCard" id="resultAnalytics">
+        <h2 class="ch">Test Results</h2>
+        <div class="highlights grid">
+            <section class="data-box">
+                <h5>Marks scored</h5>
+                <p id="marksAlloted">0</p>
+            </section>
+            <section class="data-box">
+                <h5>Average performance</h5>
+                <p>0</p>
+            </section>
+            <section class="data-box">
+                <h5>Rank</h5>
+                <p>0</p>
+            </section>
+            <section class="data-box">
+                <h5>Percentile</h5>
+                <p>0</p>
+            </section>
+        </div>
+    </div>
+    <div class="contentCard" id="results">
+        <h2 class="ch">Your responses & Answer key</h2>
+        <div class="top-right-lg btn primary medium" id="solutionBtn"><i class="fas fa-file-download mar-right"></i>Download Solutions</div>
+        <div class="contentList" id="resultList">
+            <!-- <div class="content">
+                <h6>QUESTION 1</h6>
+                <div class="boxed small">Correct : +4</div>
+                <p class="question">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quia praesentium facilis quo voluptate 
+                    nisi, sunt velit quasi enim consectetur.
+                </p>
+                <ul class="options">
+                    <li class="option correct">This is option 1</li>
+                    <li class="option selected">This is option 2</li>
+                    <li class="option correct selected">This is option 3</li>
+                    <li class="option">This is option 4</li>
+                </ul>
+            </div> -->
+        </div>
     </div>
 </main>
 

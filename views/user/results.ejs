@@ -3,14 +3,14 @@
 <header class="relative">
     <h1 id="h1" class="h1" data-nav="1" data-id="<%= USER._id %> ">Results</h1>
     <aside class="lg-only absolute flex">
-        <div class="boxed large grey">MOCK TESTS ATTEMPTED : 4</div>
-        <div class="boxed large grey">22 JAN 2022</div>
+        <div class="boxed large grey">Mock tests attempted : 0</div>
+        <div class="boxed large grey" id="dateHolder">1 JAN 2020</div>
     </aside>
 </header>
 
 <main>
     <div class="contentCard">
-        <h2 class="ch">Result Analysis</h2>
+        <h2 class="ch"><i class="fas fa-chart-line"></i>Result Analysis</h2>
         <div class="highlights grid">
             <section class="data-box">
                 <h5>Average Marks</h5>
@@ -32,13 +32,13 @@
     </div>
 
     <div class="contentCard">
-        <h2 class="ch">Previous Performances</h2>
+        <h2 class="ch"><i class="fas fa-history"></i>Previous Performances</h2>
         <div id="results" class="results">
             <div class="resultsTitles">
-                <h5>EXAM NAME</h5>
-                <h5>MARKS</h5>
-                <h5>RANK</h5>
-                <h5>PERCENTILE</h5>
+                <h5>Exam</h5>
+                <h5>Score</h5>
+                <h5>Rank</h5>
+                <h5>Percentile</h5>
             </div>
             <!-- <div class="resultDiv">
                 <p>Exam Name and something</p>

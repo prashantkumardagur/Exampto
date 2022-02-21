@@ -39,8 +39,8 @@ const createPalleteBtns = async (num) => {
 
     let dbAnswers = await fetch(`/api/attempttest/${resultId}/getanswers`).then(res => res.json());
     answers = dbAnswers.data;
-    if(!answers.length) answers = new Array(num).fill(0);
-    else { for(let i=0; i<num; ++i) { if(answers[i] !== 0) Qbtns[i].classList.add("marked"); } }
+    if(answers) { for(let i=0; i<num; ++i) { if(answers[i] && answers[i] !== 0) Qbtns[i].classList.add("marked"); } }
+    else answers = new Array(num).fill(0);
 }
 
 const saveAnswers = async () => {

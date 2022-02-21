@@ -15,12 +15,12 @@ const loadResults = async () => {
         let results = resultsRequest.data;
         results.forEach( result => {
             resultsDiv.innerHTML += `
-            <div class="resultDiv">
+            <a href='/user/viewtest/${result.exam._id}' class="resultDiv block">
                 <p>${result.exam.name}</p>
                 <p>${result.marksAllocated}</p>
                 <p>${result.rank}</p>
                 <p>${result.percentile}</p>
-            </div>`;
+            </a>`;
         });
     }
 }

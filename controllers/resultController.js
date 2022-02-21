@@ -8,7 +8,7 @@ const { respondSuccess , respondFailure } = require('../utils/responders');
 
 // Initializes the test and renders the test page
 module.exports.renderTest = async (req, res) => { 
-    let resultexists = await Result.exists({user : req.user._id, exam : req.params.id});
+    let resultexists = await Result.findOne({user : req.user._id, exam : req.params.id}, {'meta.ended':1});
     if(!resultexists) { 
         const result = new Result({
             user : req.user._id,
@@ -25,6 +25,8 @@ module.exports.renderTest = async (req, res) => {
         });
         await result.save();
     }
+    else if(resultexists.meta.ended === true) return res.redirect('/user/viewtest/' + req.params.id);
+    
     res.render('attemptTest', {testId : req.params.id , resultId : resultexists ? resultexists._id : result._id});
 }
 
@@ -34,7 +36,7 @@ module.exports.getAnswers = async (req, res) => {
     try {
         let result = await Result.findById(req.params.resultId, {responses: 1});
         if(result) respondSuccess(res, "Answers found", result.responses);
-        else respondSuccess(res, "Answers not found", []);
+        else respondSuccess(res, "Answers not found");
     } catch(err) {
         respondFailure(res, "Invalid result id", 400);
     }
@@ -65,7 +67,7 @@ module.exports.endTest = async (req, res) => {
         let marks = 0;
         result.responses.forEach((response, index) => {
             if(response == result.exam.answers[index]) marks += result.exam.marking.positive;
-            else marks -= result.exam.marking.negative;
+            else if(response != 0) marks -= result.exam.marking.negative;
         });
         result.marksAllocated = marks;
 
@@ -88,4 +90,21 @@ module.exports.getResults = async (req, res) => {
         {exam: 1, marksAllocated: 1, rank: 1, percentile: 1, meta: 1}
         ).populate('exam', 'name');
     respondSuccess(res, "Results fetched", results);
+}
+
+// Returns complete result of a test with given exam id
+module.exports.getResult = async (req, res) => {
+    try{
+        let result = await Result.findOne({
+            user : req.user._id,
+            exam : req.params.id
+        }).populate('exam', {'answers': 1, 'marking': 1, 'contents': 1, 'solutions': 1});
+        if(result) {
+            if(result.meta.ended == true) respondSuccess(res, "Result fetched", result);
+            else respondSuccess(res, "Exam not over", {ended: result.meta.ended});
+        }
+        else respondFailure(res, "Result not found", 404);
+    } catch(err) {
+        respondFailure(res, "Invalid request", 400);
+    }
 }

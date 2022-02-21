@@ -12,17 +12,19 @@ nav i{padding-bottom: 5px; font-size: 26px;}
 header aside{right: 0; top: 0;}
 header aside .boxed, header aside .btn{margin-left: 20px;}
 
-.heroCard h3{margin: 10px 0 15px; font-size: 30px;}
-.heroCard p{font-weight: 500; margin-bottom: 5px;}
+.heroCard h3{margin: 10px 0 15px; font-size: 24px;}
+.heroCard p{font-weight: 500; margin-bottom: 5px; font-size: 14px;}
 
-.wallet-banner{padding: 20px 30px; font-size: 24px;}
+.highlights{grid-template-columns: 1fr; row-gap: 10px;}
+
+.wallet-banner{padding: 10px 16px; font-size: 20px; margin-top: 40px;}
 
 .graphArea{ padding: 100px 0; text-align: center; background-color: var(--shadow); margin-top: 30px;}
 
 .instructions li{margin: 0 0 5px 1em;}
 
-.resultsTitles, .resultDiv{grid-template-columns: 1fr 80px 80px 80px; column-gap: 20px; display: grid; padding: 10px 5px;}
-.resultsTitles h5{font-size: 16px; color: var(--greyText);}
+.resultsTitles, .resultDiv{grid-template-columns: 1fr 40px 40px 40px; column-gap: 5px; display: grid; padding: 10px 5px;}
+.resultsTitles h5{font-size: 14px; color: var(--greyText); text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
 .resultDiv{border-radius: 5px; border-top: 1px solid var(--shadow);}
 .resultDiv:hover{background-color: var(--accent2);}
 
@@ -30,7 +32,11 @@ header aside .boxed, header aside .btn{margin-left: 20px;}
 /* ----- For devices with screen width > 500px -------------------------------------------------------------------------------  */
 
 @media screen and (min-width: 500px) {
-    
+    .resultsTitles, .resultDiv{grid-template-columns: 1fr 60px 60px 60px;}
+    .resultsTitles h5{font-size: 16px;}
+
+    .heroCard h3{font-size: 28px;}
+    .heroCard p{font-size: 16px;}
 }
 
 
@@ -43,16 +49,21 @@ header aside .boxed, header aside .btn{margin-left: 20px;}
     .nav-links, .nav-links.coordinator{grid-template-columns: 1fr; height: auto;}
     .nav-links a{padding: 15px 0; width: 80px;}
     .nav-links li.active{background-color: #fff; color: var(--accent);
-        box-shadow: 0 0 20px var(--shadow); border-radius: 0 20px 20px 0;}
+        box-shadow: 0 0 10px var(--shadow); border-radius: 0 20px 20px 0;}
     .nav-links a:hover{color: var(--accent);}
 
     .container{margin: 0 5vw 0 calc(5vw + 80px);}
 
     header aside{ display: flex !important;}
 
+    .heroCard h3{font-size: 30px;}
+
     .wallet{grid-template-columns: 2fr 1fr; column-gap: 30px;}
+    .wallet-banner{padding: 20px 30px; font-size: 24px; margin-top: 0;}
 
     .highlights{grid-template-columns: 1fr 1fr; column-gap: 30px; row-gap: 20px;}
+
+    .resultsTitles, .resultDiv{grid-template-columns: 1fr 80px 80px 80px; column-gap: 20px;}
 }
 
 

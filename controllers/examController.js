@@ -10,8 +10,14 @@ module.exports.getEnrolledTests = async (req, res) => {
     let enrolledTests = await User.findById(
         {_id: req.user.id},
         {examsEnrolled: 1}
-        ).populate('examsEnrolled', {contents: 0, solutions: 0, answers: 0});
-    respondSuccess(res, 'Successfully fetched enrolled tests', enrolledTests);
+        ).populate('examsEnrolled', {contents: 0, solutions: 0});
+    let responseData = enrolledTests.examsEnrolled.map(exam => {
+        let data = exam.toJSON();
+        data.totalQuestions = data.answers.length;
+        data.answers = [];
+        return data;
+    })
+    respondSuccess(res, 'Successfully fetched enrolled tests', responseData);
 }
 
 // Returns the available upcoming tests for the user

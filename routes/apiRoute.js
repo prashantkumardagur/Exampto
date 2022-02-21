@@ -35,6 +35,7 @@ router.get('/user/gettest/:id', isUserLoggedIn, exam.getTestForUser);
 router.get('/user/myresults', isUserLoggedIn, result.getResults);
 
 router.get('/user/enrolltest/:id', isUserLoggedIn, exam.enrollTest);
+router.get('/user/getresult/:id', isUserLoggedIn, result.getResult);
 
 
 // ----- cordinator API routes ----------------------------------------------------

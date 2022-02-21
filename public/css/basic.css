@@ -6,9 +6,9 @@
     --accent : #0059ff;
     --accent-dark: #0026ff;
     --accent2 : #d1eaff;
-    --bg : #f6f6f6;
-    --shadow : #eee;
-    --greyText : #555;
+    --bg : #eee;
+    --shadow : #ddd;
+    --greyText : #444;
     --green : #8cff8c;
     --red : #ff4141;
 }
@@ -58,8 +58,9 @@ label, input, select{display: block;}
 .mar-top-10{margin-top: 10px;}
 .mar-top-20{margin-top: 20px;}
 .mar-top-40{margin-top: 40px;}
-.mar-right{margin-right: 5px;}
-.mar-left{margin-left: 5px;}
+.mar-top-60{margin-top: 60px;}
+.mar-right{margin-right: 10px;}
+.mar-left{margin-left: 10px;}
 
 
 
@@ -73,7 +74,7 @@ label, input, select{display: block;}
 .rounded-10{border-radius: 10px;}
 .rounded-5{border-radius: 5px;}
 
-.h1{font-size: 50px;}
+.h1{font-size: 28px;}
 
 .red{color: var(--red);}
 .accent{color: var(--accent);}
@@ -102,7 +103,7 @@ label, input, select{display: block;}
 /* ----- For devices with screen width > 500px -------------------------------------------------------------------------------  */
 
 @media screen and (min-width: 500px) {
-
+    .h1{font-size: 34px;}
 }
 
 
@@ -112,6 +113,8 @@ label, input, select{display: block;}
 @media screen and (min-width: 800px) {
     .mob-only{ display: none;}
     .lg-only{ display: block;}
+
+    .h1{font-size: 40px;}
 }
 
 

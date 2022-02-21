@@ -49,7 +49,7 @@ const updateDate = () => {
     
     if(timeHolder) { 
         updateTime();
-        window.setTimeout(updateTime, 5000);
+        window.setInterval(updateTime, 5000);
     }
 }
 if(dateHolder) updateDate();
