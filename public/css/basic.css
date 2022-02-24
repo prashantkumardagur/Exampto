@@ -39,6 +39,7 @@ label, input, select{display: block;}
 .block{display: block;}
 .inline{display: inline;}
 .in-block{display: inline-block;}
+.in-flex{display: inline-flex;}
 
 .pos-center{place-items: center;}
 .text-center{text-align: center;}
@@ -70,6 +71,7 @@ label, input, select{display: block;}
 .w700{font-weight: 700;}
 .w900{font-weight: 900;}
 
+.rounded{border-radius: 50%;}
 .rounded-20{border-radius: 20px;}
 .rounded-10{border-radius: 10px;}
 .rounded-5{border-radius: 5px;}

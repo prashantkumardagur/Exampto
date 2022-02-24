@@ -149,6 +149,7 @@ module.exports.updateDetails = async (req, res) => {
         exam.startTime = req.body.startTime;
         exam.lastStartTime = req.body.lastStartTime;
         exam.price = req.body.price;
+        exam.meta.isPrivate = req.body.isPrivate == '1'? true : false;
         await exam.save();
         respondSuccess(res, 'Successfully updated test details');
     } catch(err) {

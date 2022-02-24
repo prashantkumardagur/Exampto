@@ -17,60 +17,146 @@
 
     <!-- App stylesheets -->
     <link rel="stylesheet" href="/css/basic.css">
-    <link rel="stylesheet" href="/css/component.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
     <link rel="stylesheet" href="/css/testmaker.css">
 </head>
 <body>
-    <%- include('coordinator/partials/nav') %>
-
-    <div class="container pad-top-20">
-
-        <header class="relative">
-            <h1 class="h1" id="h1" data-id="<%= testId %>">Test Maker</h1>
-            <aside class="lg-only absolute">
-                <div id="dateHolder" class="boxed large grey">DATE</div>
-                <div id="timeHolder" class="boxed large grey">TIME</div>
-            </aside>
-        </header>
-        
-        <main>
-            <div class="contentCard">
-                <h2 class="ch">Test Details</h2>
-                <div class="loading" id="myTestDiv">Loading your test...</div>
+    
+    <nav class="grid">
+        <div id="alertBox"></div>
+        <div>
+            <div class="navHeader">
+                <div class="navIcon rounded in-flex pos-center relative"><i class="fas fa-bars"></i></div>
+                <h1 class="in-block" data-id="<%= testId %>" id="h1">Exampto</h1>
             </div>
 
-            <div class="contentCard">
-                <h2 class="ch">Test Content</h2>
-                <div class="boxed boxed-blue small in-block mar-right">Total questions : <span id="totalQuestions"></span></div>
-                <div class="boxed boxed-blue small in-block">Maximum marking : <span id="maxMarking"></span></div>
-                <div id="testContentsDiv" class="mar-top-40"></div>
-
-                <form autocomplete="off" id="newContent" class="newContent">
-                    <h6>Add new question</h6>
-                    <section>
-                        <label for="newQuestion">Question</label>
-                        <input type="text" name="newQuestion" id="newQuestion" required>
-                    </section>
-                    <section>
-                        <label for="options">Options</label>
-                        <input type="text" name="option1" id="option1" placeholder="Option 1" required>
-                        <input type="text" name="option2" id="option2" placeholder="Option 2" required>
-                        <input type="text" name="option3" id="option3" placeholder="Option 3" required>
-                        <input type="text" name="option4" id="option4" placeholder="Option 4" required>
-                    </section>
-                    <section>
-                        <label for="correntOption">Correct Option</label>
-                        <input type="number" name="correctOption" id="correctOption" value="1" min="1" max="4" required >
-                    </section>
-                    <button class="primary btn medium">Add Question</button>
-                </form>
+            <div class="navlinks">
+                <button class="navlink active" id="detailsBtn"><i class="fas fa-question"></i>Test details</button>
+                <button class="navlink" id="viewAllQuesBtn"><i class="fas fa-list-ul"></i>View all questions</button>
+                <button class="navlink" id="newQuesBtn"><i class="fas fa-plus"></i>Add new question</button>
             </div>
-        </main>
+        </div>
 
+        <div class="pallete grid" id="pallete"></div>
+
+        <a href="/coordinator/viewtest/<%= testId %>" class="btn large exit absolute text-center w500" id="exit">Save & Exit</a>
+    </nav>
+
+    <!-- Test Details container -->
+    <div class="container" id="testDetailsDiv">
+        <h3>Test Details</h3>
+        <form id="detailForm" class="detailForm">
+            <h4>Basic Info</h4>
+            <section>
+                <label for="testName">Test Name</label>
+                <input type="text" name="name" id="testName" value="" required>
+            </section>
+            <div class="grid-2">
+                <section>
+                    <label for="category">Category</label>
+                    <select name="category" id="category" required>
+                        <option value="JEE">JEE</option>
+                        <option value="NEET">NEET</option>
+                        <option value="SSC">SSC</option>
+                    </select>
+                </section>
+                <section>
+                    <label for="price">Price</label>
+                    <input type="number" name="price" id="price" value="0" step="1" min="0" required>
+                </section>
+            </div>
+            <h4>Timings</h4>
+            <div class="grid-2">
+                <section>
+                    <label for="startTime">Start time</label>
+                    <input type="datetime-local" name="startTime" id="startTime" value="" required>
+                </section>
+                <section>
+                    <label for="duration">Duration (in minutes)</label>
+                    <input type="number" name="duration" id="duration" value="60" step="5" min="30" required>
+                </section>
+            </div>
+            <div class="grid-2">
+                <section>
+                    <label for="startDuration">Start Duration</label>
+                    <input type="number" name="startDuration" id="startDuration" value="10" step="5" min="5" required>
+                </section>
+                <p class="instruction">This is the time duration in minutes for which users will be allowed to enter the test 
+                    after start time.</p>
+            </div>
+            <h4>Marking</h4>
+            <div class="grid-2">
+                <section>
+                    <label for="positive">Positive Marking</label>
+                    <input type="number" name="positive" id="positive" value="4" step="1" min="1" required>
+                </section>
+                <section>
+                    <label for="negative">Negative Marking</label>
+                    <input type="number" name="negative" id="negative" value="1" step="0.25" min="0" required>
+                </section>
+            </div>
+            <h4>Custom Controls</h4>
+            <div class="grid-2">
+                <section>
+                    <label for="visibility">Visibility</label>
+                    <select name="visibility" id="visibility" required>
+                        <option value="0">To everyone</option>
+                        <option value="1">People with link only</option>
+                    </select>
+                </section>
+                <p class="instruction" id="visibilityInfo">This test is currently visible to all users of this program.</p>
+            </div>
+            <div class="grid-2 mar-top-40">
+                <button class="btn large" style="margin-top: 30px;">Update test details</button>
+                <p class="instruction red w500">Make sure to save the changes before leaving this page.</p>
+            </div>
+        </form>
     </div>
 
-    <script src="/js/dashboard.js"></script>
+    <!-- Container to view all questions -->
+    <div class="container" id="viewAllQuesDiv" style="display: none">
+        <h3>View All Questions</h3>
+        <div id="Qcontents">
+            <div class="content"> </div>
+        </div>
+    </div>
+
+    <!-- Container to add new question -->
+    <div class="container" id="newQuesDiv" style="display: none;">
+        <h3>Add new question</h3>
+        <form id="newQuesForm">
+            <label for="newQues">QUESTION <span id="newQuesNum">0</span></label>
+            <textarea name="newQues" id="newQues" placeholder="Type your question here" required></textarea>
+            <h6>Options</h6>
+            <textarea class="option" name="option1" id="option1" placeholder="Type option 1 here" rows="1" required></textarea>
+            <textarea class="option" name="option2" id="option2" placeholder="Type option 2 here" rows="1" required></textarea>
+            <textarea class="option" name="option3" id="option3" placeholder="Type option 3 here" rows="1" required></textarea>
+            <textarea class="option" name="option4" id="option4" placeholder="Type option 4 here" rows="1" required></textarea>
+            <h6>Correct Option</h6>
+            <select name="correct" id="correct" required>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+            <button class="btn large mar-top-40">Add question</button>
+        </form>
+    </div>
+
+    <!-- Container to view a question -->
+    <div class="container" id="viewQuesDiv" style="display: none;">
+        <h3>View Question</h3>
+        <div class="content" id="viewContent">
+            <div class="boxed"></div>
+            <p class="question"></p>
+            <p class="option"></p>
+            <p class="option"></p>
+            <p class="option"></p>
+            <p class="option"></p>
+        </div>
+    </div>
+
+    
+
     <script src="/js/testmaker.js"></script> 
 </body>
 </html>

@@ -1,4 +1,4 @@
-nav{ font-size: 12px; bottom: 0; left: 0; right: 0; width: 100vw; height: 80px; z-index: 100;
+nav{ font-size: 12px; bottom: 0; left: 0; right: 0; width: 100vw; height: 60px; z-index: 100;
     background-color: white; box-shadow: 0 0 20px var(--shadow);}
 .nav-links{ list-style: none; grid-template-columns: repeat(5, 1fr); height: 100%; width: 100%; align-items: center;}
 .nav-links.coordinator{ grid-template-columns: repeat(4, 1fr);}
@@ -15,7 +15,7 @@ header aside .boxed, header aside .btn{margin-left: 20px;}
 .heroCard h3{margin: 10px 0 15px; font-size: 24px;}
 .heroCard p{font-weight: 500; margin-bottom: 5px; font-size: 14px;}
 
-.highlights{grid-template-columns: 1fr; row-gap: 10px;}
+.highlights{grid-template-columns: 1fr; row-gap: 10px; display: grid;}
 
 .wallet-banner{padding: 10px 16px; font-size: 20px; margin-top: 40px;}
 

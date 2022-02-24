@@ -1,23 +1,71 @@
-label, input, select {display: block; width: 100%;}
-input, select {background-color: var(--shadow); border: none; border-radius: 5px; padding: 5px 8px; font-size: 16px;}
-label{ color: var(--greyText); font-weight: 700; }
+::-webkit-scrollbar-track{background-color: #ffffff; border-radius: 10px;}
+::-webkit-scrollbar{width: 8px; background-color: #ffffff; border-radius: 10px;}
+::-webkit-scrollbar-thumb{background-color: #a8b4cc; border-radius: 10px;}
+::-webkit-scrollbar-thumb:hover{background-color: var(--accent);}
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px; }
+button{cursor: pointer; border: none;}
+.btn{background-color: var(--accent); color: #fff; border-radius: 5px; padding: 4px 8px; }
+.btn.large{padding: 8px 15px; font-size: 16px;}
 
-.quesDiv{ padding: 10px 15px; border: 2px solid var(--shadow); border-radius: 5px; margin-bottom: 30px; }
-.quesDiv h6{font-size: 16px; color: var(--greyText);}
-.question {padding: 10px 0 15px; font-weight: 500;}
-.quesDiv ul{list-style: none;}
-.option{ background-color: var(--accent2); margin-bottom: 10px; padding: 5px 10px; border-radius: 5px;}
-.option.correct{ background-color: var(--green);}
+/*==========================================================================================*/
 
-.newContent{ padding: 10px 15px; border: 2px solid var(--accent); border-radius: 5px; }
-.newContent h6{font-size: 18px; color: var(--accent); margin-bottom: 10px;}
-.newContent input{margin-bottom: 10px;}
+body{max-height: 100vh;}
 
-
-@media screen and (max-width: 600px) {
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }    
+nav{
+  grid-template-rows: auto 1fr; align-items: start;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 10;
+  height: 100vh; width: 300px; max-width: 90vw; max-height: 100vh;
+  background-color: #fff;
 }
+
+.navHeader{padding: 10px; border-bottom: 1px solid var(--shadow);}
+.navIcon{ height: 50px; width: 50px; justify-content: center; font-size: 24px; z-index: 10;}
+.navIcon:hover{ background-color: #eee;}
+
+.navlinks{ border-bottom: 1px solid var(--shadow); padding: 10px 0;}
+.navlink{display: block; padding: 8px 10px 8px 20px; background-color: #fff; font-size: 16px; width: 95%;
+        text-align: left; border-radius: 0 20px 20px 0; margin-bottom: 2px; }
+.navlink:hover{ background-color: var(--accent2);}
+.navlink.active{ background-color: var(--accent); color: #fff;}
+.navlink i{margin-right: 5px; width: 20px;}
+
+.pallete{ grid-template-columns: repeat(5, 40px); row-gap: 10px;justify-content: space-between;
+        margin-bottom: 60px; margin-top: 10px; padding: 0 15px; overflow-y: scroll; }
+.Qbtn{display: flex; height: 40px; width: 40px; font-weight: 500; align-items: center; justify-content: center; 
+  background-color: var(--accent2); border-radius: 5px; cursor: pointer; transition: 0.2s;}
+.Qbtn.active{background-color: var(--accent); color: #fff; border-radius: 50%;}
+
+.exit{ bottom: 10px; left: 10px; right: 10px; }
+
+
+/*==========================================================================================*/
+
+.container{margin-left: 300px; padding: 20px 5vw 100px;}
+.container h3{font-size: 24px; margin-bottom: 50px;}
+.boxed{background-color: var(--accent2); border-radius: 5px; padding: 4px 8px; display: inline-block; font-weight: 500;}
+
+/*==========================================================================================*/
+/* For view all questions*/
+.content{padding: 10px 15px; border-radius: 5px; background-color: #fff; margin-bottom: 30px;}
+.content .question{font-size: 17px; font-weight: 500; padding: 5px 0 15px; }
+.content .option{padding: 4px 8px; border-radius: 5px; margin-bottom: 5px; border: 1px solid var(--shadow);}
+.content .option.correct{background-color: var(--green); border: none; font-size: 15px;}
+
+/* Test details */
+h4{color: var(--accent); font-size: 15px; text-transform: uppercase; margin-top: 50px;}
+.instruction{font-size: 13px; margin-top: 33px;}
+.grid-2{display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px;}
+.detailForm{max-width: 600px;}
+label{font-size: 14px; font-weight: 500; margin: 15px 0 2px;}
+input, select{padding: 5px 10px; border-radius: 5px; border: 2px solid #aaa; width: 100%; 
+  font-size: 16px; font-weight: 500; outline: none;}
+input:focus, select:focus{border-color: var(--accent);}
+
+/* Add new question */
+#newQuesDiv textarea{width: 100%; border-radius: 5px; border: 2px solid #aaa; padding: 4px 8px; 
+  font-size: 16px; outline: none; resize: none; display: block; overflow: hidden; font-family: roboto, sans-serif;}
+#newQuesDiv textarea:focus{border-color: var(--accent);}
+#newQuesDiv label{font-size: 18px; font-weight: 700; margin: 15px 0 10px; color: var(--greyText);}
+#newQuesDiv h5{font-size: 18px;}
+#newQuesDiv h6{font-size: 16px; font-weight: 500; margin: 15px 0 5px;}
+#newQuesDiv .option{margin-bottom: 10px;}

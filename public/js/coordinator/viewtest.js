@@ -32,7 +32,9 @@ const loadTestDetails = async () => {
         <div class="boxed boxed-blue medium mar-top-40"><i class="fas fa-wallet"></i> Price : ${test.price}</div>
         <div class="bottom-right" id='btnDiv'>
             ${ test.meta.isPublished ? 
-                `<div class='boxed boxed-blue medium'>Test Published</div>` :
+                test.meta.resultDeclared ? `<div class='boxed boxed-blue medium'>Test Result Declared</div>` :
+                `<div class='boxed boxed-blue medium in-block'>Test Published</div>
+                <button class='btn primary medium' id='declareBtn'>Declare Result</button>` :
                 `<a href="/coordinator/testmaker/${testId}" class="btn medium primary">Edit</a>
                 <button class="primary medium btn" id="publishBtn">Publish Test</button>`}
         </div>`;
@@ -51,3 +53,5 @@ const publishTest = async () => {
         showAlert('Error publishing test', 'error');
     }
 }
+
+// Declare Results

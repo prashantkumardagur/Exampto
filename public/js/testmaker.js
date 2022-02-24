@@ -1,173 +1,262 @@
 var testId = document.getElementById('h1').dataset.id;
-var myTestDiv = document.getElementById('myTestDiv');
-var testContentsDiv = document.getElementById('testContentsDiv');
-var totalQuestions = document.getElementById('totalQuestions');
-var maxMarking = document.getElementById('maxMarking');
-var newContent = document.getElementById('newContent');
-
-var contents = {};
-var answers = [];
-
-const createQuesDiv = (content, index) => {
-    let quesDiv = document.createElement('div');
-    quesDiv.classList.add('quesDiv');
-    quesDiv.innerHTML = `
-        <h6>QUESTION ${index + 1}</h6>
-        <p class="question">${content.question}</p>
-        <ul>
-            ${content.options.map( (option, i) => `<li class="option ${ answers[index]===i+1 ? 'correct' : '' }">${option}</li>` ).join('')}
-        </ul>
-    `;
-    testContentsDiv.appendChild(quesDiv);
-}
+var exit = document.getElementById('exit');
+var pallete = document.getElementById('pallete');
+var test = {};
+var currentQuestion = 0;
+var totalQuestions = 0;
+var Qbtns = {};
+var detailsBtn = document.getElementById('detailsBtn');
+var newQuesBtn = document.getElementById('newQuesBtn');
+var viewAllQuesBtn = document.getElementById('viewAllQuesBtn');
+var navlinks = document.getElementsByClassName('navlink');
+var Qcontents = document.getElementById('Qcontents');
+var containers = document.getElementsByClassName('container');
+var detailForm = document.getElementById('detailForm');
+var viewQuesDiv = document.getElementById('viewQuesDiv');
+var newQuesForm = document.getElementById('newQuesForm');
+var newQuesNum = document.getElementById('newQuesNum');
 
 window.onload = async () => {
-    var myTest = await fetch(`/api/testmaker/${testId}`).then(res => res.json());
 
-    if(myTest.status === 'failure') {
-        myTestDiv.innerHTML = `Test not found. Please contact the administrator if something is wrong.`;
+    detailsBtn.onclick = () => {
+        selectNavLink(0);
+        document.getElementById('testDetailsDiv').style.display = 'block';
+    }
+    viewAllQuesBtn.onclick = () => {
+        selectNavLink(1);
+        loadAllQuestions();
+        document.getElementById('viewAllQuesDiv').style.display = 'block';
+    }
+    newQuesBtn.onclick = () => {
+        selectNavLink(2);
+        document.getElementById('newQuesDiv').style.display = 'block';
+    }
 
-    } else {
-        myTest = myTest.data;
-        contents = myTest.contents;
-        answers = myTest.answers;
+    if(!(await getTest())) return;
+    totalQuestions = test.answers.length;
+    createPallete();
+    createDetailForm();
+    newQuesForm.onsubmit = addQuestion;
+    addAutoResizeAbility();
+    newQuesNum.innerHTML = totalQuestions+1;
+}
 
-        var detailForm = document.createElement('form');
-        detailForm.setAttribute('id', 'detailForm');
-        detailForm.setAttribute('method', 'post');
-        detailForm.setAttribute('autocomplete', 'off');
-        detailForm.classList.add('testMakerForm', 'grid-2');
+// =====================================================================================
 
-        let dateDiff = ( new Date(myTest.lastStartTime) - new Date(myTest.startTime) ) / 60000;
+// Remove highlight from any active section
+const removeHighlight= () => {
+    for(let i=0; i<3; i++) navlinks[i].classList.remove('active');
+    for(let i=0; i<4; i++) containers[i].style.display = 'none';
+    Qbtns[currentQuestion].classList.remove('active');
+}
 
-        detailForm.innerHTML = `
-        <section>
-            <label for="name">Test Name</label>
-            <input type="text" name="name" id="name" value="${myTest.name}" required>
-        </section>
-        <section>
-            <label for="category">Category</label>
-            <select name="category" id="category" required>
-                <option value="JEE" selected>JEE</option>
-                <option value="NEET">NEET</option>
-                <option value="SSC">SSC</option>
-            </select>
-        </section>
-        <section>
-            <label for="positive">Positive Marking</label>
-            <input type="number" name="positive" id="positive" value="${myTest.marking.positive}" required step="1" min="1" max="10">
-        </section>
-        <section>
-            <label for="negative">Negative Marking</label>
-            <input type="number" name="negative" id="negative" value="${myTest.marking.negative}" required step="1" min="0" max="10">
-        </section>
-        <section>
-            <label for="duration">Duration (in minutes)</label>
-            <input type="number" name="duration" id="duration" value="${myTest.duration}" required step="1" min="30" max="300">
-        </section>
-        <section>
-            <label for="startduration">Start duration (in minutes)</label>
-            <input type="number" name="startduration" id="startDuration" value="${dateDiff}" required step="1" min="5" max="300">
-        </section>
-        <section>
-            <label for="startDate">Start Date</label>
-            <input type="datetime-local" name="startTime" id="startTime" value="${myTest.startTime.slice(0,16)}" required>
-        </section>
-        <section>
-            <label for="price">Price</label>
-            <input type="number" name="price" id="price" value="${myTest.price}" required step="1" min="0" max="10000">
-        </section>  
-        <button class="btn primary large" id="testUpdateBtn">Update Test Details</button>
-        <button class="btn primary large red-bg" id="testDeleteBtn">Delete Test</a>
-        `;
 
-        myTestDiv.innerHTML = '';
-        myTestDiv.classList.remove('loading');
-        myTestDiv.appendChild(detailForm);
+// selects active navlink
+const selectNavLink = (num) => {
+    removeHighlight();
+    navlinks[num].classList.add('active');
+}
 
-        detailForm.addEventListener('submit', e => e.preventDefault());
+// AlertBox functionality
+var alertBox = document.getElementById('alertBox');
+const showAlert = (alertString, type='success',timer=4000) =>{
+    alertBox.innerHTML = '<i class="far fa-bell icon-left"></i>' + alertString;
+    alertBox.style.top = "30px";
+    alertBox.style.backgroundColor = ( type === 'success' ? 'var(--accent)' : 'var(--red)' );
+    setTimeout(hideAlert, timer);
+}
+const hideAlert = () => { alertBox.style.top = "-80px";}
 
-        document.getElementById('testUpdateBtn').addEventListener('click', async () => {
-            let startTime = new Date(detailForm.elements.startTime.value);
-            let lastStartTime = new Date(startTime.getTime() + (detailForm.elements.startDuration.value * 60000));
-    
-            testDetails = {
-                id: testId,
-                name: detailForm.elements.name.value,
-                category: detailForm.elements.category.value,
-                positive: detailForm.elements.positive.value,
-                negative: detailForm.elements.negative.value,
-                duration: detailForm.elements.duration.value,
-                startTime : startTime.toISOString(),
-                lastStartTime : lastStartTime.toISOString(),
-                price: detailForm.elements.price.value,
-            }
-    
-            let updateResponse = await fetch(`/api/testmaker/${testId}?_method=PATCH`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(testDetails)
-                })
-                .then(res => res.json())
-            showAlert('Test details updated successfully');
+// Functionality to auto-resize textarea
+const addAutoResizeAbility = () => {
+    let textareas = document.getElementsByTagName('textarea');
+    for(let i=0; i<textareas.length; ++i){
+        textareas[i].addEventListener('input', () => {
+            textareas[i].style.height = 'auto';
+            textareas[i].style.height = (textareas[i].scrollHeight + 4) + 'px';
         });
-
-        document.getElementById('testDeleteBtn').addEventListener('click', async () => {
-            let deleteResponse = await fetch(`/api/testmaker/${testId}?_method=DELETE`, {method: 'POST'}).then(res => res.json());
-            if(deleteResponse.status === 'success') window.location.href = '/coordinator/tests';
-            else showAlert(deleteResponse.message);
-        });
-
-
-        totalQuestions.innerHTML = contents.length;
-        maxMarking.innerHTML = contents.length * parseInt(myTest.marking.positive);
-        contents.forEach( createQuesDiv );
-
-
-        newContent.addEventListener('submit', async e => {
-            e.preventDefault();
-
-            let newContentData = {
-                id: testId,
-                question: newContent.elements.newQuestion.value,
-                options: [
-                    newContent.elements.option1.value,
-                    newContent.elements.option2.value,
-                    newContent.elements.option3.value,
-                    newContent.elements.option4.value,
-                ],
-                answer: parseInt(newContent.elements.correctOption.value)
-            }
-
-            let newContentResponse = await fetch(`/api/testmaker/${testId}/addquestion`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newContentData)
-                })
-                .then(res => res.json())
-
-            if(newContentResponse.status === 'success') {
-                showAlert('Question added successfully');
-                newContent.reset();
-
-                contents.push({
-                    question : newContentData.question,
-                    options : newContentData.options,
-                });
-                answers.push(newContentData.answer);
-
-                totalQuestions.innerHTML = contents.length;
-                maxMarking.innerHTML = contents.length * parseInt(myTest.marking.positive);
-                createQuesDiv(newContentData, contents.length - 1);
-
-            } else {
-                showAlert(newContentResponse.message);
-            }
-        })
-
-
     }
 }
 
 
+// =====================================================================================
 
+// gets the test details from database
+const getTest = async () =>{ 
+    let testRequest = await fetch('/api/testmaker/'+testId).then(res => res.json());
+    if(testRequest.status !== 'success'){ 
+        console.log('something went wrong'); 
+        return false;
+    }
+    test = testRequest.data;
+    return true;
+}
+
+// Create question pallete
+const createPallete = () => {
+    pallete.innerHTML = '';
+    for(let i=0; i<totalQuestions; ++i){
+        let Qbtn = document.createElement('div');
+        Qbtn.className = 'Qbtn';
+        Qbtn.innerHTML = i+1;
+        Qbtn.onclick= () => { loadQuestion(i); };
+        pallete.appendChild(Qbtn);
+    }
+    Qbtns = document.getElementsByClassName('Qbtn');
+}
+
+// Load question
+const loadQuestion = (num) => {
+    removeHighlight();
+    currentQuestion = num;
+    Qbtns[num].classList.add('active');
+
+    let viewContent = document.getElementById('viewContent');
+    viewContent.children[0].innerHTML = `Question ${num+1}`;
+    viewContent.children[1].innerHTML = test.contents[num].question;
+    for(let i=0; i<test.contents[num].options.length; ++i){
+        viewContent.children[i+2].innerHTML = test.contents[num].options[i];
+        viewContent.children[i+2].className = i+1 == test.answers[num] ? 'option correct' : 'option';
+    }
+    viewQuesDiv.style.display = 'block';
+}
+
+// =====================================================================================
+
+// view all questions
+const loadAllQuestions = () => {
+    Qcontents.innerHTML = '';
+    test.contents.forEach((content, index) => {
+        let contentDiv = document.createElement('div');
+        contentDiv.className = 'content';
+        contentDiv.innerHTML = `
+        <div class="boxed">Question ${index+1}</div>
+        <p class="question">${content.question}</p>`;
+        content.options.forEach((option, i) => {
+            let isCorrect = i+1 == test.answers[index] ? 'correct' : '';
+            contentDiv.innerHTML += `<p class="option ${isCorrect}">${option}</p>`;
+        });
+        Qcontents.appendChild(contentDiv);        
+    });
+}
+
+// =====================================================================================
+
+// Fill detail form with test details
+const createDetailForm = () => {
+    detailForm.elements.name.value = test.name;
+    detailForm.elements.category.value = test.category;
+    detailForm.elements.price.value = test.price;
+    detailForm.elements.duration.value = test.duration;
+    detailForm.elements.positive.value = test.marking.positive;
+    detailForm.elements.negative.value = test.marking.negative;
+    detailForm.elements.visibility.value = test.meta.isPrivate? 1 : 0;
+    detailForm.elements.startDuration.value = ( new Date(test.lastStartTime) - new Date(test.startTime) ) / 60000;
+    detailForm.elements.startTime.value = new Date(test.startTime).toLocaleString("sv-SE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    }).replace(" ", "T");
+    
+    const updateVisibilityInfo = () => {
+        document.getElementById('visibilityInfo').innerHTML = detailForm.elements.visibility.value == '1' ? 
+        `This won't be visible to users in explore section. Users will need link to access the test.` :
+        'This test is currently visible to all users of this program.';
+    }
+    document.getElementById('visibility').onchange = updateVisibilityInfo();
+    updateVisibilityInfo();
+
+    detailForm.onsubmit = updateTestDetails;
+}
+
+
+// update test details
+const updateTestDetails = async (e) => {
+    e.preventDefault();
+
+    let startTime = new Date(detailForm.elements.startTime.value);
+    let lastStartTime = new Date(startTime.getTime() + (detailForm.elements.startDuration.value * 60000));
+
+    let testDetails = {
+        id: testId,
+        name: detailForm.elements.name.value,
+        category: detailForm.elements.category.value,
+        price: detailForm.elements.price.value,
+        duration: detailForm.elements.duration.value,
+        startTime: startTime.toISOString(),
+        lastStartTime: lastStartTime.toISOString(),
+        positive: detailForm.elements.positive.value,
+        negative: detailForm.elements.negative.value,
+        isPrivate: detailForm.elements.visibility.value,
+    }
+
+    let updateRequest = await fetch(`/api/testmaker/${testId}?_method=PATCH`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(testDetails)
+        })
+        .then(res => res.json())
+    
+    if(updateRequest.status !== 'success') showAlert('Something went wrong', 'error');
+    else showAlert('Test details updated successfully', 'success');
+}
+
+// =====================================================================================
+
+
+// Add new question
+const addQuestion = async (e) => {
+    e.preventDefault();
+    let newContentData = {
+        id: testId,
+        question: newQuesForm.elements.newQues.value,
+        options: [
+            newQuesForm.elements.option1.value,
+            newQuesForm.elements.option2.value,
+            newQuesForm.elements.option3.value,
+            newQuesForm.elements.option4.value
+        ],
+        answer: parseInt(newQuesForm.elements.correct.value)
+    }
+
+    let newContentRequest = await fetch(`/api/testmaker/${testId}/addquestion`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newContentData)
+    }).then(res => res.json());
+
+    console.log(newContentRequest);
+    if(newContentRequest.status !== 'success') { showAlert(newContentRequest.message, 'error'); return }
+    
+    showAlert('Question added successfully', 'success');
+    newQuesForm.reset();
+    test.contents.push({
+        question : newContentData.question,
+        options : newContentData.options
+    });
+    test.answers.push(newContentData.answer);
+    totalQuestions++;
+    newQuesNum.innerHTML = totalQuestions+1;
+    createPallete();
+    loadQuestion(totalQuestions-1);
+}
+
+const addOptionFunctionalities = () => {
+    document.querySelectorAll('.option .selector').forEach(selector => {
+        selector.addEventListener('click', (e) => {
+            for(let i=3; i<7; ++i) e.target.parentElement.parentElement.children[i].classList.remove('selected');
+            e.target.parentElement.classList.add('selected');
+        });
+    });
+    document.querySelectorAll('.option textarea').forEach(textarea => {
+        textarea.addEventListener('focus', () => {textarea.parentElement.style.borderColor = 'var(--greyText)';});
+        textarea.addEventListener('blur', () => {textarea.parentElement.style.borderColor = '#aaa';});
+    });
+}
+
+const selectOption = (e) => {
+    console.log('Selecting option');
+}
