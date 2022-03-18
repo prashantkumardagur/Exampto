@@ -38,7 +38,7 @@ const sessionConfig = {
     saveUninitialized : true,
     cookie : {
         httpOnly : true,
-        secure : true, // For production phase, turn off in developing phase.
+        // secure : true, // For production phase, turn off in developing phase.
         maxAge : 86400000 // One day in milliseconds
     },
     store : MongoStore.create({
