@@ -10,7 +10,6 @@ const loadEnrolledTests = async () => {
         showAlert(enrolledTestsRequest.message, 'error');
         enrolledTestDiv.innerHTML = 'Error fetching enrolled tests';
     } else {
-        console.log(enrolledTestsRequest.data);
         let enrolledTests = enrolledTestsRequest.data;
         if(enrolledTests.length === 0) {
             enrolledTestDiv.innerHTML = 'You haven\'t enrolled for any tests yet';

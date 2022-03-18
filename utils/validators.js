@@ -3,7 +3,7 @@ const { respondFailure } = require('../utils/responders');
 
 module.exports.registerationValidation = async (req, res, next) => {
     const schema = joi.object({
-        name: joi.string().min(3).max(32).required().alphanum(),
+        name: joi.string().min(3).max(32).required().regex(/^[a-zA-Z ]*$/),
         username: joi.string().min(3).max(32).required().alphanum(),
         email: joi.string().min(3).max(64).required().email(),
         password: joi.string().min(6).max(32).required().regex(/^[^<>%$()]*$/),

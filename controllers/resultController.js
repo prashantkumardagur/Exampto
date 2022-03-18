@@ -34,8 +34,8 @@ module.exports.renderTest = async (req, res) => {
 // Returns users saved answers
 module.exports.getAnswers = async (req, res) => {
     try {
-        let result = await Result.findById(req.params.resultId, {responses: 1});
-        if(result) respondSuccess(res, "Answers found", result.responses);
+        let result = await Result.findById(req.params.resultId, {responses: 1, meta: 1});
+        if(result) respondSuccess(res, "Answers found", result);
         else respondSuccess(res, "Answers not found");
     } catch(err) {
         respondFailure(res, "Invalid result id", 400);
@@ -50,6 +50,17 @@ module.exports.saveAnswers = async (req, res) => {
         else respondFailure(res, "Error saving answers", 500);
     } catch(err) {
         respondFailure(res, "Error saving answers", 400);
+    }
+}
+
+// Add disconnection
+module.exports.addDisconnection = async (req, res) => {
+    try{
+        let result = await Result.findByIdAndUpdate(req.params.resultId, {$inc: {'meta.disconnections': 1}}, {new : true});
+        if(result) respondSuccess(res, "Disconnection incremented");
+        else respondFailure(res, "Error encountered", 500);
+    } catch(err) {
+        respondFailure(res, "Invalid request", 400);
     }
 }
 

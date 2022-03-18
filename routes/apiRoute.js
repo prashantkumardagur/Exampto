@@ -5,6 +5,7 @@ const router = express.Router();
 // ----- Importing the controllers -----------------------------------
 const exam = require('../controllers/examController');
 const result = require('../controllers/resultController');
+const user = require('../controllers/userController');
 
 router.use(bodyParser.json());
 
@@ -17,6 +18,11 @@ const isCoordinatorLoggedIn = (req, res, next) => {
 
 const isUserLoggedIn = (req, res, next) => {
     if(req.isAuthenticated() && req.user.role === 'user' ) next();
+    else res.status(403).send({status : 'failure', message : 'You are not authorized to perform this action'});
+}
+
+const isAdminLoggedIn = (req, res, next) => {
+    if(req.session.admin === true) next();
     else res.status(403).send({status : 'failure', message : 'You are not authorized to perform this action'});
 }
 
@@ -52,8 +58,9 @@ router.route('/testmaker/:id')
     .delete( isCoordinatorLoggedIn, exam.deleteTest)
     .patch( isCoordinatorLoggedIn, exam.updateDetails)
 
-router.route('/testmaker/:id/addquestion')
-    .post( isCoordinatorLoggedIn, exam.addQuestion)
+router.post('/testmaker/:id/addquestion', isCoordinatorLoggedIn, exam.addQuestion)
+
+router.get('/testmaker/:id/deletequestion/:index', isCoordinatorLoggedIn, exam.deleteQuestion)
 
 router.post( '/testmaker/publish/:id', isCoordinatorLoggedIn, exam.publishTest)
 
@@ -64,6 +71,13 @@ router.post( '/testmaker/publish/:id', isCoordinatorLoggedIn, exam.publishTest)
 router.get('/attempttest/:id/requesttest', isUserLoggedIn, exam.testRequest );
 router.get('/attempttest/:resultId/getanswers', isUserLoggedIn, result.getAnswers );
 router.post('/attempttest/:resultId/saveanswers', isUserLoggedIn, result.saveAnswers );
+router.get('/attempttest/:resultId/disconnectionEncountered', isUserLoggedIn, result.addDisconnection );
+
+
+// ----- Admin API routes ----------------------------------------------------
+
+router.get('/admin/getuserlist', isAdminLoggedIn, user.getUserList);
+router.get('/admin/getcoordinatorlist', isAdminLoggedIn, user.getCoordinatorList);
 
 
 // ----- 404 API route ----------------------------------------------------

@@ -15,6 +15,7 @@ var detailForm = document.getElementById('detailForm');
 var viewQuesDiv = document.getElementById('viewQuesDiv');
 var newQuesForm = document.getElementById('newQuesForm');
 var newQuesNum = document.getElementById('newQuesNum');
+var quesDeleteBtn = document.getElementById('quesDeleteBtn');
 
 window.onload = async () => {
 
@@ -39,6 +40,8 @@ window.onload = async () => {
     newQuesForm.onsubmit = addQuestion;
     addAutoResizeAbility();
     newQuesNum.innerHTML = totalQuestions+1;
+
+    quesDeleteBtn.onclick = deleteQuestion;
 }
 
 // =====================================================================================
@@ -47,7 +50,7 @@ window.onload = async () => {
 const removeHighlight= () => {
     for(let i=0; i<3; i++) navlinks[i].classList.remove('active');
     for(let i=0; i<4; i++) containers[i].style.display = 'none';
-    Qbtns[currentQuestion].classList.remove('active');
+    if(Qbtns[currentQuestion]) Qbtns[currentQuestion].classList.remove('active');
 }
 
 
@@ -228,7 +231,6 @@ const addQuestion = async (e) => {
         body: JSON.stringify(newContentData)
     }).then(res => res.json());
 
-    console.log(newContentRequest);
     if(newContentRequest.status !== 'success') { showAlert(newContentRequest.message, 'error'); return }
     
     showAlert('Question added successfully', 'success');
@@ -242,6 +244,20 @@ const addQuestion = async (e) => {
     newQuesNum.innerHTML = totalQuestions+1;
     createPallete();
     loadQuestion(totalQuestions-1);
+}
+
+// Delete question
+const deleteQuestion = async (e) => {
+    let deleteRequest = await fetch(`/api/testmaker/${testId}/deletequestion/${currentQuestion}`).then(res => res.json());
+    if(deleteRequest.status !== 'success') { showAlert(deleteRequest.message, 'error'); return }
+    showAlert('Question deleted successfully', 'success');
+    test.contents.splice(currentQuestion, 1);
+    test.answers.splice(currentQuestion, 1);
+    totalQuestions--;
+    if(totalQuestions == 0){detailsBtn.click(); createPallete(); return}
+    else if(currentQuestion == totalQuestions ) currentQuestion--;
+    createPallete();
+    loadQuestion(currentQuestion);
 }
 
 const addOptionFunctionalities = () => {

@@ -6,3 +6,24 @@
         <div class="boxed large grey"><i class="fas fa-wallet"></i>500</div>
     </aside>
 </header>
+
+<div class="contentCard profile">
+    <form>
+        <h3 class="h3 ch">Basic Information</h3>
+        <section>
+            <label>Full Name</label>
+            <input type="text" name="name" maxlength="31" value="<%= USER.name %>" required>
+        </section>
+        <div class="grid-2">
+            <section>
+                <label>Email</label>
+                <input type="email" name="email" maxlength="31" value="<%= USER.email %>" required>
+            </section>
+            <section>
+                <label>Phone</label>
+                <input type="tel" name="phone" maxlength="10" value="<%= USER.phone %>" required>
+            </section>
+        </div>
+    </form>
+    
+</div>

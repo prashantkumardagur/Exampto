@@ -1,0 +1,45 @@
+<% layout('layouts/adminDashboard') -%>
+
+<header class="relative">
+    <h1 class="h1" data-nav="2">Coordinators</h1>
+    <aside class="lg-only absolute">
+        <div class="boxed large grey" id="dateHolder">29 FEB 2020</div>
+        <div class="boxed large grey" id="timeHolder">06 : 32 PM</div>
+    </aside>
+</header>
+
+<main class="pad-top-20">
+    <div class="contentCard">
+        <h2 class="ch" style="margin-bottom: 0;"><i class="fas fa-user-plus"></i>Add new coordinator</h2>
+        <form action="/admin/addcoordinator" method="POST" class="profile">
+            <div class="grid-2">
+                <section>
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="Name" required>
+                </section>
+                <section>
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Email" required>
+                </section>
+            </div>
+            <div class="grid-2">
+                <section>
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Username" required>
+                </section>
+                <section>
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Password" required>
+                </section>
+            </div>
+            <button type="submit" class="btn primary medium mar-top-20" name="role" value="coordinator">Add coordinator</button>
+        </form>
+    </div>
+
+    <div class="contentCard">
+        <h2 class="ch"><i class="fas fa-users"></i>Coordinator List</h2>
+        <div class="loading" id="coordinatorlist">Your content is loading, please wait...</div>
+    </div>
+</main>
+
+<script src="/js/admin/coordinators.js"></script>

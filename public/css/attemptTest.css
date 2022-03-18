@@ -42,7 +42,7 @@ h3{font-size: 18px;}
 
 /*  Styles for main elements  --------------------------------------------------------------------------  */
 
-#timer{font-size: 16px;padding: 6px 10px; position: fixed; top: 30px; right: 5vw; z-index: 10; box-shadow: 0 0 20px #ddd;}
+.timer{font-size: 16px;padding: 6px 10px; position: fixed; top: 30px; right: 5vw; z-index: 10; box-shadow: 0 0 20px #ddd;}
 
 h5{font-size: 20px; letter-spacing: 1px; word-spacing: 5px;}
 

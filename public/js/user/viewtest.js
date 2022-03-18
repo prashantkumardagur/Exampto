@@ -2,10 +2,12 @@ var testId = document.getElementById('h1').dataset.id;
 var heroCard = document.getElementById('heroCard');
 var instructionDiv = document.getElementById('instructions');
 var resultList = document.getElementById('resultList');
+var solutionBtn = document.getElementById('solutionBtn');
 
 window.onload = () => {
     loadTestDetails();
     getResults();
+    solutionBtn.onclick = () => { downloadSolutions(testId); }
 }
 
 const loadTestDetails = async () => {
@@ -99,4 +101,8 @@ const getResults = async () => {
     }
     
     if(resultRequest.data.ended === false) document.getElementById('startBtn').innerHTML = `Continue Test`;
+}
+
+const downloadSolutions = (id) => {
+    showAlert('Feature not available yet', 'error');
 }

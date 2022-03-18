@@ -2,7 +2,6 @@ const express = require('express');
 const useragent = require('express-useragent');
 const router = express.Router();
 
-const exam = require('../controllers/examController');
 const result = require('../controllers/resultController');
 const { isUserLoggedIn } = require('../utils/authMiddlewares');
 

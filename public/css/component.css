@@ -68,8 +68,8 @@
 .content h6{font-size: 16px; margin-top: 5px;}
 .content .question{font-weight: 500; margin: 10px 0;}
 .content li{border-radius: 5px; padding: 5px 10px; margin-bottom: 5px; background-color: var(--shadow);}
-.content .correct.selected{background-color: var(--accent2); font-weight: 700; color: var(--accent);}
-.content .correct{background-color: var(--green);}
+.content .correct.selected{background-color: var(--green); color: #000; border: none;}
+.content .correct{background-color: var(--accent2); font-weight: 700; color: var(--accent); border: 1px solid var(--accent);}
 .content .selected{background-color: #ff9999;}
 
 

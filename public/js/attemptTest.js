@@ -4,11 +4,14 @@ var questionPallete = document.getElementById("questionPallete");
 var Qnum = document.getElementById("Qnum");
 var quesDiv = document.getElementById("quesDiv");
 var optionsDiv = document.getElementById("options");
+var timer = document.getElementById("timer");
 
 var currentQuestion = 0;
 var mytest = {};
 var Qbtns = [];
 var answers = [];
+var userStartedOn = Date.now();
+var timeRemaining = 60;
 
 window.onload = async () => {
     var requestTest = await fetch(`/api/attempttest/${testId}/requesttest`).then(res => res.json());
@@ -24,7 +27,34 @@ window.onload = async () => {
         document.getElementById('backBtn').addEventListener("click", () => { loadQuestion(currentQuestion-1); });
         document.getElementById('nextBtn').addEventListener("click", () => { loadQuestion(currentQuestion+1); });
         document.getElementById('unselectBtn').addEventListener("click", () => { removeSelection(); saveAnswers(); });
+
+        initializeTimer();
     }
+
+    window.addEventListener('visibilitychange', userBlurred);
+}
+
+const userBlurred = async (e) => {
+    if(document.visibilityState === "hidden") {
+        let disconnectionRequest = await fetch(`/api/attempttest/${resultId}/disconnectionEncountered`).then(res => res.json());
+        if(disconnectionRequest.status !== "success") console.log(disconnectionRequest);
+        else console.log("Disconnection added");
+    }
+    if(document.visibilityState == 'visible'){
+        alert("You were found inactive. Your test will be submitted automatically after some more disconnections.");
+    }
+}
+
+const initializeTimer = () => {
+    timeRemaining = mytest.duration*60 - Math.floor((Date.now() - userStartedOn)/1000);
+    window.setInterval(updateTimer, 1000);
+}
+function updateTimer(){
+    if(timeRemaining<1) return;
+    --timeRemaining;
+    let minutesRemaining = Math.floor(timeRemaining/60);
+    let secondsRemaining = timeRemaining%60;
+    timer.innerHTML = `${minutesRemaining} : ${secondsRemaining}`;
 }
 
 const createPalleteBtns = async (num) => {
@@ -38,7 +68,8 @@ const createPalleteBtns = async (num) => {
     Qbtns = document.getElementsByClassName("Qbtn");
 
     let dbAnswers = await fetch(`/api/attempttest/${resultId}/getanswers`).then(res => res.json());
-    answers = dbAnswers.data;
+    userStartedOn = new Date(dbAnswers.data.meta.startedOn).getTime();
+    answers = dbAnswers.data.responses;
     if(answers) { for(let i=0; i<num; ++i) { if(answers[i] && answers[i] !== 0) Qbtns[i].classList.add("marked"); } }
     else answers = new Array(num).fill(0);
 }
@@ -66,6 +97,8 @@ const removeSelection = () => {
 }
 
 const loadQuestion = (index) => {
+    if(index < 0) index = 0;
+    else if(index >= mytest.contents.length) index = mytest.contents.length-1;
     content = mytest.contents[index];
 
     Qbtns[currentQuestion].classList.remove("current");

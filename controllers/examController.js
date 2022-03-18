@@ -184,6 +184,21 @@ module.exports.addQuestion = async (req, res) => {
     }
 }
 
+// Delete the question from test with the given id
+module.exports.deleteQuestion = async (req, res) => {
+    try{
+        let exam = await Exam.findById(req.params.id);
+        if(!exam) return respondFailure(res, 'No test found', 404);
+        if(exam.contents.length <= req.params.index) return respondFailure(res, 'Invalid index value', 400);
+        exam.contents.splice(req.params.index, 1);
+        exam.answers.splice(req.params.index, 1);
+        await exam.save();
+        respondSuccess(res, 'Successfully deleted question');
+    } catch(err) {
+        respondFailure(res, 'Error deleting question');
+    }
+}
+
 
 
 // ----- Test configuration controller ------------------------------------------------

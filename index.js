@@ -38,7 +38,7 @@ const sessionConfig = {
     saveUninitialized : true,
     cookie : {
         httpOnly : true,
-        // secure : true, // For production phase, turn off in developing phase.
+        secure : true, // For production phase, turn off in developing phase.
         maxAge : 86400000 // One day in milliseconds
     },
     store : MongoStore.create({
@@ -59,7 +59,7 @@ app.use(express.json());
 app.use(express.static(path.join( __dirname, '/public')));
 
 // Adding other middlewares packages
-app.use(helmet());
+// app.use(helmet());
 app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use(session(sessionConfig));
@@ -92,6 +92,7 @@ const coordinatorRoutes = require('./routes/coordinatorRoute')
 const authRoutes = require('./routes/authRoute');
 const devRoutes = require('./routes/devRoute');
 const apiRoutes = require('./routes/apiRoute');
+const adminRoutes = require('./routes/adminRoute');
 
 // API routes
 app.use('/api', apiRoutes);
@@ -104,6 +105,9 @@ app.use('/coordinator', coordinatorRoutes);
 
 // Auth routes
 app.use('/auth', authRoutes);
+
+// Admin routes
+app.use('/admin', adminRoutes);
 
 // Dev routes - Admin needs to be logged in to access these routes
 app.use('/dev', devRoutes);

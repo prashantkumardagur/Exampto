@@ -15,3 +15,9 @@ module.exports.isCoordinatorLoggedIn = (req, res, next) => {
         return res.redirect('/auth/login');
     }
 }
+
+// Checks if an admin is logged in
+module.exports.isAdminLoggedIn = (req, res, next) => {
+    if(req.session.admin === true) next();
+    else return res.redirect('/admin/');
+}

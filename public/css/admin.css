@@ -1,0 +1,3 @@
+.userlist ul{list-style: none;}
+.userlist ul li{display: grid; grid-template-columns: 2fr 3fr 3fr; column-gap: 10px; padding: 5px 0;}
+.listHeadings{ border-bottom: 1px solid var(--shadow); padding-bottom: 5px; margin-bottom: 10px;}

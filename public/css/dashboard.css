@@ -8,6 +8,7 @@ nav i{padding-bottom: 5px; font-size: 26px;}
 
 
 .container{margin: 0 5vw;}
+.grid-2{grid-template-columns: repeat(2, 1fr); display: grid; grid-gap: 20px;}
 
 header aside{right: 0; top: 0;}
 header aside .boxed, header aside .btn{margin-left: 20px;}
@@ -28,6 +29,12 @@ header aside .boxed, header aside .btn{margin-left: 20px;}
 .resultDiv{border-radius: 5px; border-top: 1px solid var(--shadow);}
 .resultDiv:hover{background-color: var(--accent2);}
 
+.profile{max-width: 800px;}
+.profile h3{font-size: 16px; margin-bottom: 20px;}
+.profile label{font-size: 14px; margin-bottom: 2px; font-weight: 500; color: var(--accent); margin-top: 20px;}
+.profile input{font-size: 14px; padding: 4px 6px; border-radius: 5px; background-color: var(--accent2); width: 100%;
+            border: none; outline: none; border: 1px solid var(--accent2);}
+.profile input:focus{border-color: var(--accent);}
 
 /* ----- For devices with screen width > 500px -------------------------------------------------------------------------------  */
 
