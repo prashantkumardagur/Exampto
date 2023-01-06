@@ -243,7 +243,7 @@ const addQuestion = async (e) => {
     totalQuestions++;
     newQuesNum.innerHTML = totalQuestions+1;
     createPallete();
-    loadQuestion(totalQuestions-1);
+    // loadQuestion(totalQuestions-1);
 }
 
 // Delete question

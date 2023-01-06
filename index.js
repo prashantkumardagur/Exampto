@@ -15,7 +15,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const MongoStore = require("connect-mongo");
 
-const dbUrl = process.env.DB_URL;
+const dbUrl = process.env.DB_URL || 'mongodb+srv://prashantkumar:Password024680@testcluster.8xzqf.mongodb.net/testdb?retryWrites=true&w=majority';
 // Connecting to mongoDB
 mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {console.log('MongoDB connected.')})
@@ -29,7 +29,7 @@ mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true})
 const app = express();
 
 //Configuration variables
-const secret = process.env.SECRET;
+const secret = process.env.SECRET || 'g6Hf7JS83fGK89jS';
 
 const sessionConfig = {
     name: 'app',

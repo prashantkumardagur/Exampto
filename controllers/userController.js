@@ -39,7 +39,7 @@ module.exports.login = (req, res) => {
 
 //Admin login
 module.exports.adminLogin = (req, res) => {
-    let adminPassword = process.env.ADMIN_PASSWORD;
+    let adminPassword = process.env.ADMIN_PASSWORD || 'adminPassword';
     if(req.body.password === adminPassword) {
         req.session.admin = true;
         res.redirect('/admin/dashboard');

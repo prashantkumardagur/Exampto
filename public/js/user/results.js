@@ -22,5 +22,8 @@ const loadResults = async () => {
                 <p>${result.percentile}</p>
             </a>`;
         });
+
+        if(results) document.getElementById('mockTestsAttempted').innerHTML = results.length;
     }
+
 }
